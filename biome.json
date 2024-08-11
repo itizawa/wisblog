@@ -8,7 +8,7 @@
       "quoteStyle": "single",
       "jsxQuoteStyle": "single",
       "trailingCommas": "all",
-      "semicolons": "asNeeded",
+      "semicolons": "always",
       "arrowParentheses": "asNeeded",
       "indentWidth": 2,
       "indentStyle": "space",
@@ -45,7 +45,7 @@
       "enabled": true,
       "indentStyle": "space",
       "indentWidth": 2,
-      "lineWidth": 80
+      "lineWidth": 120
     }
   }
 }
