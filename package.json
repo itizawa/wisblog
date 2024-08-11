@@ -10,13 +10,13 @@
     "build": "turbo run build",
     "clean": "turbo run clean",
     "dev": "turbo run dev",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check": "turbo check",
+    "format": "turbo format",
     "lint": "turbo run lint",
     "test": "turbo run test"
   },
   "dependencies": {},
   "devDependencies": {
-    "prettier": "^3.2.5",
     "turbo": "^2.0.12"
   },
   "packageManager": "yarn@1.22.19",

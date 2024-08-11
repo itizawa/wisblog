@@ -11,8 +11,14 @@
       "outputs": ["coverage/**"],
       "dependsOn": []
     },
+    "check": {
+      "dependsOn": ["^check"]
+    },
     "lint": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^lint"]
+    },
+    "format": {
+      "dependsOn": ["^format"]
     },
     "dev": {
       "cache": false,
