@@ -5,10 +5,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "start": "next start",
-    "check": "biome check ./src",
-    "lint": "biome lint --write ./src",
-    "format": "biome format --write ./src"
+    "start": "next start"
   },
   "dependencies": {
     "next": "^14.1.1",

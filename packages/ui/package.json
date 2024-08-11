@@ -4,11 +4,6 @@
   "exports": {
     "./button": "./src/button.tsx"
   },
-  "scripts": {
-    "check": "biome check ./src",
-    "lint": "biome lint --write ./src",
-    "format": "biome format --write ./src"
-  },
   "devDependencies": {
     "@types/react": "^18.2.61",
     "@types/react-dom": "^18.2.19",

@@ -2,21 +2,18 @@
   "name": "with-docker",
   "version": "0.0.0",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "build": "turbo run build",
     "clean": "turbo run clean",
     "dev": "turbo run dev",
-    "check": "turbo check",
-    "format": "turbo format",
-    "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "format-and-lint": "biome check .",
+    "format-and-lint:fix": "biome check . --write"
   },
   "dependencies": {},
   "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
     "turbo": "^2.0.12"
   },
   "packageManager": "yarn@1.22.19",
