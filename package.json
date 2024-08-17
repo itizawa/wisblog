@@ -16,7 +16,7 @@
     "@biomejs/biome": "^1.8.3",
     "turbo": "^2.0.12"
   },
-  "packageManager": "yarn@1.22.19",
+  "packageManager": "yarn@1.22.22",
   "engines": {
     "node": ">=14.0.0",
     "npm": ">=7.0.0"
