@@ -19,9 +19,21 @@ services:
       - 3001:3001
     networks:
       - app_network
+  db:
+    image: postgres
+    container_name: postgres_wisblog
+    volumes:
+      - db-store:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: postgres
 
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname
 networks:
   app_network:
     external: true
+volumes:
+  db-store:
