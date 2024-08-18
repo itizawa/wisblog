@@ -28,7 +28,8 @@
     "express": "^4.18.3",
     "morgan": "^1.10.0",
     "prisma": "^5.18.0",
-    "zod-prisma-types": "^3.1.8"
+    "zod-prisma-types": "^3.1.8",
+    "@repo/types": "*"
   },
   "devDependencies": {
     "prisma-case-format": "2.2.1",

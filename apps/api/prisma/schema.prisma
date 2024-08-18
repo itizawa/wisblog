@@ -16,7 +16,7 @@ datasource db {
 
 generator zod {
   provider                         = "zod-prisma-types"
-  output                           = "../../src/domain/_gen/zodSchema"
+  output                           = "../../../packages/types/src"
   useMultipleFiles                 = true // default is false
   writeBarrelFiles                 = true // default is true
   createInputTypes                 = false // default is true

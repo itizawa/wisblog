@@ -1,3 +1,4 @@
+import type { Blog } from '@repo/types';
 import { json, urlencoded } from 'body-parser';
 import cors from 'cors';
 import express from 'express';
@@ -14,7 +15,7 @@ app
   .use(cors());
 
 app.get('/message/:name', (req, res) => {
-  return res.json({ message: `hello ${req.params.name}` });
+  return res.json({ message: `hello ${req.params.name as Blog['name']}` });
 });
 
 app.get('/status', (_, res) => {
