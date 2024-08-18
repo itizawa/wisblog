@@ -13,6 +13,7 @@
     "migrate:gen": "yarn prisma migrate dev --create-only --schema=./prisma/schema.prisma --name",
     "migrate-for-single": "yarn prisma migrate deploy --schema=./prisma/schema.prisma",
     "migrate-for-single:reset": "yarn prisma migrate reset --skip-generate --force --schema=./prisma/schema.prisma",
+    "migrate": "yarn migrate-for-single",
     "migrate:dev": "yarn migrate-for-single && DATABASE_URL=postgresql://app_user:local-password@localhost:5432/test?schema=public yarn migrate-for-single",
     "migrate:dev:reset": "yarn migrate-for-single:reset && DATABASE_URL=postgresql://app_user:local-password@localhost:5432/test?schema=public yarn migrate-for-single:reset",
     "migrate:seed": "prisma db seed --preview-feature"
