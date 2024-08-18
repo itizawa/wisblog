@@ -7,7 +7,7 @@ on:
 
 jobs:
   lint:
-    name: Node.js ubuntu-latest 14.x
+    name: Node.js ubuntu-latest 20.x
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
       - name: before cache
         run: |
@@ -58,7 +58,7 @@ jobs:
           yarn format-and-lint
 
   test:
-    name: Node.js ubuntu-latest 14.x
+    name: Node.js ubuntu-latest 20.x
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -67,7 +67,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
       - name: before cache
         run: |
@@ -118,7 +118,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
       - name: before cache
         run: |
