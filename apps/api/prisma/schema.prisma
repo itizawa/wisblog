@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["relationJoins", "metrics", "views"]
 }
 
@@ -18,14 +18,30 @@ generator zod {
   provider                         = "zod-prisma-types"
   output                           = "../../src/domain/_gen/zodSchema"
   useMultipleFiles                 = true // default is false
+  writeBarrelFiles                 = true // default is true
+  createInputTypes                 = false // default is true
+  createModelTypes                 = true // default is true
+  addInputTypeValidation           = true // default is true
+  addIncludeType                   = true // default is true
+  addSelectType                    = true // default is true
+  validateWhereUniqueInput         = true // default is true
+  createOptionalDefaultValuesTypes = false // default is false
+  createRelationValuesTypes        = false // default is false
+  createPartialTypes               = false // default is false
+  useDefaultValidators             = true // default is true
+  coerceDate                       = true // default is true
+  writeNullishInModelTypes         = false // default is false
 }
 
+model Blog {
+  id        String @id @default(uuid())
+  /// @zod.string.max(255, { message: "255字未満で入力してください" })
+  name      String
+  /// @zod.string.min(3, { message: "3字以上で入力してください" })
+  subDomain String @unique @map("sub_domain")
 
- model Blog {
-   id    Int     @id @default(autoincrement())
-   name  String
-   sub_domain String  @unique
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz()
 
-   createdAt DateTime @default(now())
-   updatedAt DateTime @updatedAt
- }
+  @@map("blogs")
+}
