@@ -6,9 +6,26 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["relationJoins", "metrics", "views"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+generator zod {
+  provider                         = "zod-prisma-types"
+  output                           = "../../src/domain/_gen/zodSchema"
+  useMultipleFiles                 = true // default is false
+}
+
+
+ model Blog {
+   id    Int     @id @default(autoincrement())
+   name  String
+   sub_domain String  @unique
+
+   createdAt DateTime @default(now())
+   updatedAt DateTime @updatedAt
+ }
