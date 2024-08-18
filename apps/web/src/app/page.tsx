@@ -1,38 +1,38 @@
-'use client'
+'use client';
 
-import { Button } from '@repo/ui/button'
-import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react'
+import { Button } from '@repo/ui/button';
+import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
 
-const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:3001'
+const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080';
 
 export default function Web() {
-  const [name, setName] = useState<string>('')
-  const [response, setResponse] = useState<{ message: string } | null>(null)
-  const [error, setError] = useState<string | undefined>()
+  const [name, setName] = useState<string>('');
+  const [response, setResponse] = useState<{ message: string } | null>(null);
+  const [error, setError] = useState<string | undefined>();
 
   useEffect(() => {
-    setResponse(null)
-    setError(undefined)
-  }, [])
+    setResponse(null);
+    setError(undefined);
+  }, []);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      const result = await fetch(`${API_HOST}/message/${name}`)
-      const response = await result.json()
-      setResponse(response)
+      const result = await fetch(`${API_HOST}/message/${name}`);
+      const response = await result.json();
+      setResponse(response);
     } catch (err) {
-      console.error(err)
-      setError('Unable to fetch response')
+      console.error(err);
+      setError('Unable to fetch response');
     }
-  }
+  };
 
   const onReset = () => {
-    setName('')
-  }
+    setName('');
+  };
 
   return (
     <div>
@@ -56,5 +56,5 @@ export default function Web() {
         </div>
       )}
     </div>
-  )
+  );
 }
