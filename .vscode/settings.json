@@ -1,14 +1,5 @@
 {
-  "cSpell.words": [
-    "biome",
-    "biomejs",
-    "clean",
-    "jest",
-    "organize",
-    "recommended",
-    "spec",
-    "turbo"
-  ],
+  "cSpell.words": ["biome", "biomejs", "clean", "jest", "organize", "recommended", "spec", "turbo"],
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[javascript]": {

@@ -17,15 +17,7 @@
     }
   },
   "files": {
-    "ignore": [
-      "node_modules/",
-      "dist/",
-      "build/",
-      "**/*.test.ts",
-      "**/*.spec.ts",
-      "**/.next/**",
-      "**/next.config.js"
-    ]
+    "ignore": ["node_modules/", "dist/", "build/", "**/*.test.ts", "**/*.spec.ts", "**/.next/**", "**/next.config.js"]
   },
   "linter": {
     "enabled": true,
