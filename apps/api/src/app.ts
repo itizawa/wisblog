@@ -7,12 +7,16 @@ import morgan from 'morgan';
 const app = express();
 
 app.use(express.json());
-app
-  .disable('x-powered-by')
-  .use(morgan('dev'))
-  .use(urlencoded({ extended: true }))
-  .use(json())
-  .use(cors());
+app.disable('x-powered-by');
+app.use(morgan('dev'));
+app.use(urlencoded({ extended: true }));
+app.use(json());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  }),
+);
 
 app.get('/message/:name', (req, res) => {
   return res.json({ message: `hello ${req.params.name as Blog['name']}` });
