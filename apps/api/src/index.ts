@@ -1,9 +1,7 @@
-import { log } from '@repo/logger'
-import { createServer } from './server'
+import app from './app';
 
-const port = process.env.PORT || 3001
-const server = createServer()
+const PORT = process.env.PORT || 8080;
 
-server.listen(port, () => {
-  log(`api running on ${port}`)
-})
+app.listen(PORT, () => {
+  console.log(`REST API server ready at: http://localhost:${PORT}`);
+});
