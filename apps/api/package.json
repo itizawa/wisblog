@@ -7,19 +7,32 @@
     "clean": "rm -rf dist",
     "dev": "nodemon --exec \"node -r esbuild-register ./src/index.ts\" -e .ts",
     "start": "node -r esbuild-register ./src/index.ts",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles",
+    "schema:format": "yarn prisma-case-format --file=./prisma/schema.prisma --config-file=./prisma/.prisma-case-format",
+    "schema:gen": "yarn schema:format && yarn prisma generate --schema=./prisma/schema.prisma",
+    "migrate:gen": "yarn prisma migrate dev --create-only --schema=./prisma/schema.prisma --name",
+    "migrate-for-single": "yarn prisma migrate deploy --schema=./prisma/schema.prisma",
+    "migrate-for-single:reset": "yarn prisma migrate reset --skip-generate --force --schema=./prisma/schema.prisma",
+    "migrate:dev": "yarn migrate-for-single && DATABASE_URL=postgresql://app_user:local-password@localhost:5432/test?schema=public yarn migrate-for-single",
+    "migrate:dev:reset": "yarn migrate-for-single:reset && DATABASE_URL=postgresql://app_user:local-password@localhost:5432/test?schema=public yarn migrate-for-single:reset",
+    "migrate:seed": "prisma db seed --preview-feature"
   },
   "jest": {
     "preset": "@repo/jest-presets/node"
   },
   "dependencies": {
+    "@prisma/client": "5.18.0",
     "@repo/logger": "*",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.18.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "prisma": "^5.18.0",
+    "zod-prisma-types": "^3.1.8",
+    "@repo/types": "*"
   },
   "devDependencies": {
+    "prisma-case-format": "2.2.1",
     "@repo/jest-presets": "*",
     "@repo/typescript-config": "*",
     "@types/body-parser": "^1.19.5",
