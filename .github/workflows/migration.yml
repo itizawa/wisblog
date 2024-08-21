@@ -47,6 +47,9 @@ jobs:
           echo DATABASE_URL="${{ secrets.DATABASE_URL_FOR_MIGRATION }}" > apps/api/.env
       - name: Generate Scema
         run: yarn workspace api schema:gen
+      - name: lint:fix
+        run: |
+          yarn format-and-lint:fix
       - name: Migrate
         uses: nick-fields/retry@v3
         with:
