@@ -33,6 +33,15 @@ generator zod {
   writeNullishInModelTypes         = false // default is false
 }
 
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("users")
+}
+
 model Blog {
   id        String @id @default(uuid())
   /// @zod.string.max(255, { message: "255字未満で入力してください" })
