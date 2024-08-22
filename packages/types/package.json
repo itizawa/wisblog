@@ -4,7 +4,9 @@
   "private": true,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist/**"],
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
@@ -15,6 +17,7 @@
     "preset": "@repo/jest-presets/node"
   },
   "devDependencies": {
+    "zod": "^3.23.8",
     "@repo/jest-presets": "*",
     "@repo/typescript-config": "*",
     "@types/jest": "^29.5.12",
