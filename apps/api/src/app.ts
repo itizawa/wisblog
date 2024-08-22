@@ -20,7 +20,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      httpOnly: false, // cookieへのアクセスをHTTPのみに制限しない
+      domain: process.env.MAIN_DOMAIN,
       maxAge: 24 * 60 * 60 * 1000, // クッキーの有効期限(msec)
     },
   }),
