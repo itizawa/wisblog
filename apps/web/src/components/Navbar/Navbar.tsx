@@ -18,7 +18,6 @@ export const Navbar: FC = () => {
             <Typography
               variant='h6'
               noWrap
-              component='a'
               sx={{
                 fontFamily: 'monospace',
                 fontWeight: 700,
