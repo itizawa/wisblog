@@ -1,10 +1,18 @@
 'use client';
 
-import { Container, Stack, Toolbar, Typography, useTheme } from '@mui/material';
+import { Logout } from '@mui/icons-material';
+import { Avatar, Button, Container, IconButton, Stack, Toolbar, Typography, useTheme } from '@mui/material';
+import type { User } from '@repo/types';
 import Link from 'next/link';
 import type { FC } from 'react';
+import urlJoin from 'url-join';
+import { WrapperWithMenu } from '../WrapperWithMenu';
 
-export const Navbar: FC = () => {
+type Props = {
+  currentUser: User | undefined;
+};
+
+export const Navbar: FC<Props> = ({ currentUser }) => {
   const { palette } = useTheme();
 
   return (
@@ -13,7 +21,7 @@ export const Navbar: FC = () => {
       sx={{ borderBottom: `solid 1px ${palette.grey[600]}`, bgcolor: palette.background.default }}
     >
       <Container maxWidth='xl'>
-        <Toolbar disableGutters>
+        <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
           <Link href='/' style={{ textDecoration: 'none' }}>
             <Typography
               variant='h6'
@@ -29,6 +37,43 @@ export const Navbar: FC = () => {
               Wisblog
             </Typography>
           </Link>
+          {currentUser ? (
+            <WrapperWithMenu
+              menuItems={[
+                {
+                  key: 'logout',
+                  onClick: () => {
+                    window.location.href = urlJoin(
+                      process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080',
+                      '/users/logout',
+                    );
+                  },
+                  text: 'Logout',
+                  icon: <Logout fontSize='small' sx={{ mr: 1 }} />,
+                },
+              ]}
+            >
+              {({ triggerMenu, open }) => (
+                <IconButton
+                  onClick={triggerMenu}
+                  size='small'
+                  aria-controls={open ? 'account-menu' : undefined}
+                  aria-haspopup='true'
+                  aria-expanded={open ? 'true' : undefined}
+                >
+                  <Avatar sx={{ color: palette.grey[50] }}>{currentUser.name[0]}</Avatar>
+                </IconButton>
+              )}
+            </WrapperWithMenu>
+          ) : (
+            <Button
+              href={urlJoin(process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080', '/users/auth/google')}
+              variant='outlined'
+              sx={{ color: palette.text.primary, borderColor: palette.text.primary }}
+            >
+              Login
+            </Button>
+          )}
         </Toolbar>
       </Container>
     </Stack>
