@@ -33,6 +33,12 @@ export const ThemeProvider = (props: { children: React.ReactNode }) => {
     },
     palette: {
       mode: 'dark',
+      background: {
+        default: '#111122',
+      },
+      text: {
+        primary: '#eee',
+      },
       gray: {
         main: '#A5A4A8',
         light: alpha('#A5A4A8', 0.5),
