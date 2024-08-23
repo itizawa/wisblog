@@ -1,6 +1,6 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import { ThemeProvider } from '~/_context/ThemeProvider';
 import { Navbar } from '~/components/Navbar';
+import { ThemeProvider } from '~/context/ThemeProvider';
 
 export default function RootLayout({
   children,
