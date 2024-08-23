@@ -31,7 +31,7 @@ export const handler = async <T>(
 
   const response = await fetch(url, init).catch(error => {
     console.error(error);
-    throw new Error(error);
+    throw new Error(`Fetch error: ${error.message}`);
   });
   const data = await response.json();
 
