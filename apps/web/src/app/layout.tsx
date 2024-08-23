@@ -1,16 +1,23 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import { ThemeProvider } from '../_context/ThemeProvider';
+import { fetchMe } from '~/actions/user';
+import { Navbar } from '~/components/Navbar';
+import { ThemeProvider } from '~/context/ThemeProvider';
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { currentUser } = await fetchMe();
+
   return (
     <html lang='ja'>
       <body>
         <AppRouterCacheProvider options={{ key: 'css' }}>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <Navbar currentUser={currentUser} />
+            {children}
+          </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
     </html>
