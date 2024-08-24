@@ -39,7 +39,18 @@ model User {
   name      String
   createdAt DateTime @default(now()) @map("created_at")
 
+  blogs Blog[]
+
   @@map("users")
+}
+
+model Session {
+  sid    String   @id
+  sess   Json
+  expire DateTime @db.Timestamptz(6)
+
+  @@index([expire], name: "IDX_sessions_expire")
+  @@map("sessions")
 }
 
 model Blog {
@@ -49,8 +60,11 @@ model Blog {
   /// @zod.string.min(3, { message: "3字以上で入力してください" })
   subDomain String @unique @map("sub_domain")
 
+  ownerId String @map("owner_id")
+  owner   User   @relation(fields: [ownerId], references: [id])
+
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz()
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
 
   @@map("blogs")
 }

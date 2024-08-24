@@ -30,6 +30,7 @@ app.use(
       maxAge: 24 * 60 * 60 * 1000, // クッキーの有効期限(msec)
     },
     store: new PgSession({
+      tableName: 'sessions',
       pool: new Pool({
         user: url.username,
         password: url.password,
