@@ -1,1 +1,1 @@
-export { WrapperWithMenu } from "./WrapperWithMenu";
+export { WrapperWithMenu } from './WrapperWithMenu';
