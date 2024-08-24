@@ -38,8 +38,6 @@ model User {
   email     String   @unique
   name      String
   createdAt DateTime @default(now()) @map("created_at")
-
-  @@map("users")
 }
 
 model Blog {
@@ -52,5 +50,4 @@ model Blog {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz()
 
-  @@map("blogs")
 }
