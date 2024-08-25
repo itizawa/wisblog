@@ -7,6 +7,8 @@ import { apiRequest } from '~/libs/apiClient';
 
 export default function Web() {
   const [name, setName] = useState<string>('');
+  const [subDomain, setSubDomain] = useState<string>('');
+
   const [response, setResponse] = useState<{ message: string } | null>(null);
   const [error, setError] = useState<string | undefined>();
 
@@ -15,21 +17,20 @@ export default function Web() {
     setError(undefined);
   }, []);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
+  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
+  const onChangeSubDomain = (e: ChangeEvent<HTMLInputElement>) => setSubDomain(e.target.value);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const response = await apiRequest<CreateBlogSchema>({
+      await apiRequest<CreateBlogSchema>({
         path: '/blogs',
         method: 'POST',
         options: {
-          body: { name, subDomain: '20240810' },
+          body: { name, subDomain },
         },
       });
-
-      console.log(response, 33);
     } catch (err) {
       console.error(err);
       setError('Unable to fetch response');
@@ -45,7 +46,11 @@ export default function Web() {
       <h1>Web</h1>
       <form onSubmit={onSubmit}>
         <label htmlFor='name'>Name </label>
-        <input type='text' name='name' id='name' value={name} onChange={onChange} />
+        <input type='text' name='name' id='name' value={name} onChange={onChangeName} />
+        <br />
+        <label htmlFor='subDomain'>SubDomain </label>
+        <input type='text' name='subDomain' id='subDomain' value={subDomain} onChange={onChangeSubDomain} />
+        <br />
         <Button type='submit'>Submit</Button>
       </form>
       {error && (
