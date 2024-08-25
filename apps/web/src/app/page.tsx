@@ -1,12 +1,14 @@
 'use client';
 
+import type { CreateBlogSchema } from '@repo/types';
 import { Button } from '@repo/ui/button';
 import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
-
-const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080';
+import { apiRequest } from '~/libs/apiClient';
 
 export default function Web() {
   const [name, setName] = useState<string>('');
+  const [subDomain, setSubDomain] = useState<string>('');
+
   const [response, setResponse] = useState<{ message: string } | null>(null);
   const [error, setError] = useState<string | undefined>();
 
@@ -15,15 +17,20 @@ export default function Web() {
     setError(undefined);
   }, []);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
+  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
+  const onChangeSubDomain = (e: ChangeEvent<HTMLInputElement>) => setSubDomain(e.target.value);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const result = await fetch(`${API_HOST}/message/${name}`);
-      const response = await result.json();
-      setResponse(response);
+      await apiRequest<CreateBlogSchema>({
+        path: '/blogs',
+        method: 'POST',
+        options: {
+          body: { name, subDomain },
+        },
+      });
     } catch (err) {
       console.error(err);
       setError('Unable to fetch response');
@@ -39,7 +46,11 @@ export default function Web() {
       <h1>Web</h1>
       <form onSubmit={onSubmit}>
         <label htmlFor='name'>Name </label>
-        <input type='text' name='name' id='name' value={name} onChange={onChange} />
+        <input type='text' name='name' id='name' value={name} onChange={onChangeName} />
+        <br />
+        <label htmlFor='subDomain'>SubDomain </label>
+        <input type='text' name='subDomain' id='subDomain' value={subDomain} onChange={onChangeSubDomain} />
+        <br />
         <Button type='submit'>Submit</Button>
       </form>
       {error && (

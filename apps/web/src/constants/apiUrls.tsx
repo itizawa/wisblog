@@ -1,1 +1,1 @@
-export const USERS_ME = () => '/users/me';
+export const USERS_ME = () => '/users/me' as const;

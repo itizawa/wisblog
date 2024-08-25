@@ -1,11 +1,15 @@
 'use server';
 
-import type { User } from '@repo/types';
+import type { GetMeSchema } from '@repo/types';
 import { USERS_ME } from '~/constants/apiUrls';
-import { apiGet } from '~/libs/apiClient';
+import { apiRequest } from '~/libs/apiClient';
 
 export const fetchMe = async () => {
-  return await apiGet<{ currentUser?: User }>(USERS_ME(), {
-    next: { tags: [USERS_ME()] },
+  return await apiRequest<GetMeSchema>({
+    path: '/users/me',
+    method: 'GET',
+    options: {
+      next: { tags: [USERS_ME()] },
+    },
   });
 };

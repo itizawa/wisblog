@@ -7,6 +7,7 @@ import session from 'express-session';
 import morgan from 'morgan';
 import passport from 'passport';
 import { Pool } from 'pg';
+import { blogRoutes } from './controllers/blog';
 import { userRoutes } from './controllers/user';
 
 const PgSession = connectPgSimple(session);
@@ -59,6 +60,7 @@ app.use(
 );
 
 app.use('/users', userRoutes);
+app.use('/blogs', blogRoutes);
 
 app.get('/message/:name', (req, res) => {
   return res.json({ message: `hello ${req.params.name as Blog['name']}` });
