@@ -1,13 +1,14 @@
 'use server';
 import urlJoin from 'url-join';
 
+import type { Result } from '@repo/types';
 import { cookies } from 'next/headers';
 
 export const handler = async <T>(
   path: string,
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE',
   options?: RequestInit,
-): Promise<T> => {
+): Promise<Result<T>> => {
   const cookieStore = cookies();
   const cookie = cookieStore
     .getAll()
@@ -29,18 +30,24 @@ export const handler = async <T>(
     credentials: 'include',
   };
 
-  const response = await fetch(url, init).catch(error => {
-    console.error(error);
-    throw new Error(`Fetch error: ${error.message}`);
-  });
+  const response = await fetch(url, init);
   const data = await response.json();
 
   if (response.ok) {
-    return data;
+    return {
+      data,
+      isSuccess: true,
+      isFailure: false,
+    };
   }
 
-  console.error('ERROR:', { statusCode: response.status, statusText: response.statusText, url, method, options });
-  throw new Error(response.statusText);
+  // NOTE: 現在エラーになった時はmessageを返すようにしている。
+  // - 表示すべきエラーメッセージかどうかはサーバー側で制御しておりフロントではステータスコードで正常する必要はない。そのため、apiClientはFailureで返すようにしている。
+  return {
+    errorMessage: data.message || 'エラーが発生しました。',
+    isSuccess: false,
+    isFailure: true,
+  };
 };
 
 type ApiBaseSchema = {
@@ -55,6 +62,8 @@ type ApiBaseSchema = {
   response: object;
 };
 
-export const apiRequest = async <T extends ApiBaseSchema>(schema: Omit<T, 'response'>): Promise<T['response']> => {
+export const apiRequest = async <T extends ApiBaseSchema>(
+  schema: Omit<T, 'response'>,
+): Promise<Result<T['response']>> => {
   return handler(schema.path, schema.method, { ...schema.options, body: JSON.stringify(schema.options?.body) });
 };

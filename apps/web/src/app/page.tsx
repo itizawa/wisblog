@@ -3,6 +3,7 @@
 import type { CreateBlogSchema } from '@repo/types';
 import { Button } from '@repo/ui/button';
 import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
+import { useSnackbar } from '~/context/SnackbarProvider';
 import { apiRequest } from '~/libs/apiClient';
 
 export default function Web() {
@@ -11,6 +12,7 @@ export default function Web() {
 
   const [response, setResponse] = useState<{ message: string } | null>(null);
   const [error, setError] = useState<string | undefined>();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     setResponse(null);
@@ -23,18 +25,22 @@ export default function Web() {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      await apiRequest<CreateBlogSchema>({
-        path: '/blogs',
-        method: 'POST',
-        options: {
-          body: { name, subDomain },
-        },
-      });
-    } catch (err) {
-      console.error(err);
-      setError('Unable to fetch response');
+    const result = await apiRequest<CreateBlogSchema>({
+      path: '/blogs',
+      method: 'POST',
+      options: {
+        body: { name, subDomain },
+      },
+    });
+
+    if (result.isFailure) {
+      enqueueSnackbar({ message: result.errorMessage, variant: 'error' });
+      setError('ブログの作成に失敗しました');
+
+      return;
     }
+
+    enqueueSnackbar({ message: 'ブログを作成しました', variant: 'success' });
   };
 
   const onReset = () => {

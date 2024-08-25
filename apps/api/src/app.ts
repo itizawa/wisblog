@@ -9,6 +9,7 @@ import passport from 'passport';
 import { Pool } from 'pg';
 import { blogRoutes } from './controllers/blog';
 import { userRoutes } from './controllers/user';
+import { errorHandler } from './middlewares/errorHandler';
 
 const PgSession = connectPgSimple(session);
 
@@ -69,5 +70,7 @@ app.get('/message/:name', (req, res) => {
 app.get('/status', (_, res) => {
   return res.json({ ok: true });
 });
+
+app.use(errorHandler);
 
 export default app;
