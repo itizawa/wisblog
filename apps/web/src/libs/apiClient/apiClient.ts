@@ -29,18 +29,16 @@ export const handler = async <T>(
     credentials: 'include',
   };
 
-  const response = await fetch(url, init).catch(error => {
-    console.error(error);
-    throw new Error(`Fetch error: ${error.message}`);
-  });
+  const response = await fetch(url, init);
   const data = await response.json();
 
   if (response.ok) {
     return data;
   }
 
-  console.error('ERROR:', { statusCode: response.status, statusText: response.statusText, url, method, options });
-  throw new Error(response.statusText);
+  // NOTE: 現在エラーになった時はmessageを返すようにしている。
+  // - 表示すべきエラーメッセージかどうかはサーバー側で制御しておりフロントではステータスコードで正常する必要はない。そのため、apiClientは全て500で返すようにしている。
+  throw new Error(data.message || 'エラーが発生しました。');
 };
 
 type ApiBaseSchema = {

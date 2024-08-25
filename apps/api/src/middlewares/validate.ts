@@ -1,5 +1,6 @@
+import { ValidationError } from '@repo/types';
 import type { NextFunction, Request, Response } from 'express';
-import type { AnyZodObject } from 'zod';
+import { type AnyZodObject, ZodError } from 'zod';
 
 export const validate = (schema: AnyZodObject) => async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -10,6 +11,8 @@ export const validate = (schema: AnyZodObject) => async (req: Request, res: Resp
     });
     return next();
   } catch (error) {
-    return res.status(400).json(error);
+    if (error instanceof ZodError) {
+      return next(new ValidationError(error.errors.map(v => v.message).join(', ')));
+    }
   }
 };
