@@ -1,6 +1,7 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { fetchMe } from '~/actions/user';
 import { Navbar } from '~/components/Navbar';
+import { SnackbarProvider } from '~/context/SnackbarProvider';
 import { ThemeProvider } from '~/context/ThemeProvider';
 
 export default async function RootLayout({
@@ -15,8 +16,10 @@ export default async function RootLayout({
       <body>
         <AppRouterCacheProvider options={{ key: 'css' }}>
           <ThemeProvider>
-            <Navbar currentUser={currentUser} />
-            {children}
+            <SnackbarProvider>
+              <Navbar currentUser={currentUser} />
+              {children}
+            </SnackbarProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
