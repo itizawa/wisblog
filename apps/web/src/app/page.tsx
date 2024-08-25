@@ -1,9 +1,9 @@
 'use client';
 
+import type { CreateBlogSchema } from '@repo/types';
 import { Button } from '@repo/ui/button';
 import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
-
-const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080';
+import { apiRequest } from '~/libs/apiClient';
 
 export default function Web() {
   const [name, setName] = useState<string>('');
@@ -21,9 +21,15 @@ export default function Web() {
     e.preventDefault();
 
     try {
-      const result = await fetch(`${API_HOST}/message/${name}`);
-      const response = await result.json();
-      setResponse(response);
+      const response = await apiRequest<CreateBlogSchema>({
+        path: '/blogs',
+        method: 'POST',
+        options: {
+          body: { name, subDomain: '12021' },
+        },
+      });
+
+      console.log(response, 33);
     } catch (err) {
       console.error(err);
       setError('Unable to fetch response');

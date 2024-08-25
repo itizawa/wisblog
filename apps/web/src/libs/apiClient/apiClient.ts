@@ -43,18 +43,18 @@ export const handler = async <T>(
   throw new Error(response.statusText);
 };
 
-export const apiGet = async <T>(url: string, option?: RequestInit): Promise<T> => {
-  return await handler(url, 'GET', option);
+type ApiBaseSchema = {
+  method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
+  path: string;
+  options?: {
+    body?: object;
+    query?: object;
+    params?: object;
+    next?: object;
+  };
+  response: object;
 };
 
-export const apiPost = async <T>(url: string, option?: RequestInit): Promise<T> => {
-  return await handler(url, 'POST', option);
-};
-
-export const apiPatch = async <T>(url: string, option?: RequestInit): Promise<T> => {
-  return await handler(url, 'PATCH', option);
-};
-
-export const apiDelete = async <T>(url: string, option?: RequestInit): Promise<T> => {
-  return await handler(url, 'DELETE', option);
+export const apiRequest = async <T extends ApiBaseSchema>(schema: Omit<T, 'response'>): Promise<T['response']> => {
+  return handler(schema.path, schema.method, { ...schema.options, body: JSON.stringify(schema.options?.body) });
 };

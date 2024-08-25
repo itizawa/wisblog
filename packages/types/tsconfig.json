@@ -6,11 +6,7 @@
     "rootDir": "./src",
     "types": ["jest", "node"],
     "declaration": true,
-    "emitDeclarationOnly": true,
-    "baseUrl": "./",
-    "paths": {
-      "~/*": ["src/*"]
-    }
+    "emitDeclarationOnly": false
   },
   "include": ["src"],
   "exclude": ["node_modules"]
