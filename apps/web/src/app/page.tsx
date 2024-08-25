@@ -35,8 +35,7 @@ export default function Web() {
       });
       enqueueSnackbar({ message: 'ブログを作成しました', variant: 'success' });
     } catch (err) {
-      console.error(err);
-      enqueueSnackbar({ message: 'ブログの作成に失敗しました', variant: 'error' });
+      enqueueSnackbar({ message: (err as Error).message, variant: 'error' });
       setError('ブログの作成に失敗しました');
     }
   };
