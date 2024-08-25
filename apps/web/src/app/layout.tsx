@@ -9,7 +9,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { currentUser } = await fetchMe();
+  const result = await fetchMe();
 
   return (
     <html lang='ja'>
@@ -17,7 +17,7 @@ export default async function RootLayout({
         <AppRouterCacheProvider options={{ key: 'css' }}>
           <ThemeProvider>
             <SnackbarProvider>
-              <Navbar currentUser={currentUser} />
+              <Navbar currentUser={result.isSuccess ? result.data.currentUser : undefined} />
               {children}
             </SnackbarProvider>
           </ThemeProvider>

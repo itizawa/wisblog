@@ -25,19 +25,22 @@ export default function Web() {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      await apiRequest<CreateBlogSchema>({
-        path: '/blogs',
-        method: 'POST',
-        options: {
-          body: { name, subDomain },
-        },
-      });
-      enqueueSnackbar({ message: 'ブログを作成しました', variant: 'success' });
-    } catch (err) {
-      enqueueSnackbar({ message: (err as Error).message, variant: 'error' });
+    const result = await apiRequest<CreateBlogSchema>({
+      path: '/blogs',
+      method: 'POST',
+      options: {
+        body: { name, subDomain },
+      },
+    });
+
+    if (result.isFailure) {
+      enqueueSnackbar({ message: result.errorMessage, variant: 'error' });
       setError('ブログの作成に失敗しました');
+
+      return;
     }
+
+    enqueueSnackbar({ message: 'ブログを作成しました', variant: 'success' });
   };
 
   const onReset = () => {
