@@ -24,7 +24,9 @@
       "**/*.test.ts",
       "**/*.spec.ts",
       "**/.next/**",
-      "**/next.config.js"
+      "**/next.config.js",
+      ".vscode/**",
+      "**/package.json"
     ]
   },
   "linter": {
