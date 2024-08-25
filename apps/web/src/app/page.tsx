@@ -25,7 +25,7 @@ export default function Web() {
         path: '/blogs',
         method: 'POST',
         options: {
-          body: { name, subDomain: '12021' },
+          body: { name, subDomain: '20240810' },
         },
       });
 

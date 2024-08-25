@@ -1,13 +1,13 @@
-import { PrismaClient } from '@prisma/client';
 import { type CreateBlogSchema, type User, createBlogSchema } from '@repo/types';
 import { type Request, type Response, Router } from 'express';
+import { PrismaClientSingleton } from '~/libs/PrismaClientSingleton';
 import { loginRequired } from '~/middlewares/loginRequired';
 import { validate } from '~/middlewares/validate';
 import { CreateBlogUseCase } from '~/usecases/blog';
 
 const blogRoutes = Router();
 
-const createBlogUseCase = new CreateBlogUseCase(new PrismaClient());
+const createBlogUseCase = new CreateBlogUseCase(PrismaClientSingleton.instance);
 
 blogRoutes.post(
   '/',
