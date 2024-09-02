@@ -13,3 +13,5 @@ export class PrismaClientSingleton {
     return PrismaClientSingleton._instance;
   }
 }
+
+export const prismaClient = PrismaClientSingleton.instance;

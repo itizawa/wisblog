@@ -1,7 +1,12 @@
 {
-  "name": "api",
+  "name": "@repo/api",
   "version": "0.0.0",
   "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "build": "tsc && yarn schema:gen",
     "clean": "rm -rf dist",
@@ -41,6 +46,7 @@
   "devDependencies": {
     "@repo/jest-presets": "*",
     "@repo/typescript-config": "*",
+    "@trpc/server": "^10.45.2",
     "@types/body-parser": "^1.19.5",
     "@types/connect-pg-simple": "^7.0.3",
     "@types/cors": "^2.8.17",
