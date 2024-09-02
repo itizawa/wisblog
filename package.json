@@ -12,7 +12,11 @@
     "dev": "turbo run dev",
     "test": "turbo run test",
     "format-and-lint": "biome check .",
-    "format-and-lint:fix": "biome check . --write"
+    "format-and-lint:fix": "biome check . --write",
+    "schema:gen": "turbo run schema:gen",
+    "migrate:dev": "turbo run migrate:dev",
+    "migrate:dev:reset": "turbo run migrate:dev:reset",
+    "migrate:gen": "turbo run migrate:gen --"
   },
   "dependencies": {},
   "devDependencies": {

@@ -27,6 +27,15 @@
     "schema:gen": {
       "dependsOn": ["^schema:gen"],
       "env": ["DATABASE_URL"]
+    },
+    "migrate:dev": {
+      "cache": false
+    },
+    "migrate:dev:reset": {
+      "cache": false
+    },
+    "migrate:gen": {
+      "cache": false
     }
   }
 }
