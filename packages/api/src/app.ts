@@ -1,4 +1,5 @@
 import type { Blog } from '@repo/types';
+import * as trpcExpress from '@trpc/server/adapters/express';
 import { json, urlencoded } from 'body-parser';
 import connectPgSimple from 'connect-pg-simple';
 import cors from 'cors';
@@ -10,6 +11,15 @@ import { Pool } from 'pg';
 import { blogRoutes } from './controllers/blog';
 import { userRoutes } from './controllers/user';
 import { errorHandler } from './middlewares/errorHandler';
+import { publicProcedure, router } from './trpc';
+
+export const appRouter = router({
+  userList: publicProcedure.query(async () => {
+    return { hoge: 'hello trpc' };
+  }),
+});
+// export type definition of API
+export type AppRouter = typeof appRouter;
 
 const PgSession = connectPgSimple(session);
 
@@ -71,6 +81,12 @@ app.get('/status', (_, res) => {
   return res.json({ ok: true });
 });
 
+app.use(
+  '/trpc',
+  trpcExpress.createExpressMiddleware({
+    router: appRouter,
+  }),
+);
 app.use(errorHandler);
 
 export default app;
