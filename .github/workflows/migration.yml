@@ -53,7 +53,7 @@ jobs:
       - name: Migrate
         uses: nick-fields/retry@v3
         with:
-          command: yarn turbo run migrate --filter=@repo/api
+          command: yarn turbo run migrate:dev --filter=@repo/api
           max_attempts: 5
           timeout_minutes: 10
           retry_on: error
