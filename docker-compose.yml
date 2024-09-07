@@ -12,7 +12,7 @@ services:
     container_name: api
     build:
       context: .
-      dockerfile: ./apps/api/Dockerfile
+      dockerfile: ./packages/api/Dockerfile
     ports:
       - 8080:8080
     networks:
