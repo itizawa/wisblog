@@ -4,6 +4,7 @@ import { createTRPCProxyClient, httpBatchLink } from '@trpc/client';
 
 import type { AppRouter } from '@repo/api';
 import type { GetMeSchema } from '@repo/types';
+import urlJoin from 'url-join';
 import { USERS_ME } from '~/constants/apiUrls';
 import { apiRequest } from '~/libs/apiClient';
 
@@ -20,7 +21,7 @@ export const fetchMe = async () => {
 const trpcClient = createTRPCProxyClient<AppRouter>({
   links: [
     httpBatchLink({
-      url: 'http://localhost:8080/trpc',
+      url: urlJoin(process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080', '/trpc'),
     }),
   ],
 });
