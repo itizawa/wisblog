@@ -1,10 +1,10 @@
 import { type CreateBlogSchema, type User, createBlogSchema } from '@repo/types';
 import { type Request, type Response, Router } from 'express';
-import { PrismaClientSingleton } from '~/libs/PrismaClientSingleton';
-import { asyncWrapper } from '~/middlewares/asyncWrapper';
-import { loginRequired } from '~/middlewares/loginRequired';
-import { validate } from '~/middlewares/validate';
-import { CreateBlogUseCase } from '~/usecases/blog';
+import { PrismaClientSingleton } from '../libs/PrismaClientSingleton';
+import { asyncWrapper } from '../middlewares/asyncWrapper';
+import { loginRequired } from '../middlewares/loginRequired';
+import { validate } from '../middlewares/validate';
+import { CreateBlogUseCase } from '../usecases/blog';
 
 const blogRoutes = Router();
 
