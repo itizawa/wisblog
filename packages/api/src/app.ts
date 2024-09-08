@@ -8,14 +8,36 @@ import session from 'express-session';
 import morgan from 'morgan';
 import passport from 'passport';
 import { Pool } from 'pg';
+import z from 'zod';
 import { blogRoutes } from './controllers/blog';
 import { userRoutes } from './controllers/user';
+import { PrismaClientSingleton } from './libs/PrismaClientSingleton';
 import { errorHandler } from './middlewares/errorHandler';
 import { publicProcedure, router } from './trpc';
+
+const prismaClient = PrismaClientSingleton.instance;
 
 export const appRouter = router({
   userList: publicProcedure.query(async () => {
     return { hoge: 'hello trpc' };
+  }),
+  getBlogsBySubDomain: publicProcedure
+    .input(
+      z.object({
+        subDomain: z.string(),
+      }),
+    )
+    .query(async ({ input }) => {
+      return await prismaClient.blog.findFirst({
+        where: { subDomain: input.subDomain },
+      });
+    }),
+  getSubDomains: publicProcedure.query(async () => {
+    const blogs = await prismaClient.blog.findMany({
+      select: { subDomain: true },
+    });
+
+    return blogs.map(blog => blog.subDomain);
   }),
 });
 // export type definition of API

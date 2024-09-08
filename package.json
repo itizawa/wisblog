@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo run build && yarn format-and-lint:fix",
     "clean": "turbo run clean",
     "dev": "turbo run dev",
     "test": "turbo run test",
