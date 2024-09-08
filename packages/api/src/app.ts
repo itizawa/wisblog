@@ -10,12 +10,22 @@ import passport from 'passport';
 import { Pool } from 'pg';
 import { blogRoutes } from './controllers/blog';
 import { userRoutes } from './controllers/user';
+import { PrismaClientSingleton } from './libs/PrismaClientSingleton';
 import { errorHandler } from './middlewares/errorHandler';
 import { publicProcedure, router } from './trpc';
+
+const prismaClient = PrismaClientSingleton.instance;
 
 export const appRouter = router({
   userList: publicProcedure.query(async () => {
     return { hoge: 'hello trpc' };
+  }),
+  getSubDomains: publicProcedure.query(async () => {
+    const blogs = await prismaClient.blog.findMany({
+      select: { subDomain: true },
+    });
+
+    return blogs.map(blog => blog.subDomain);
   }),
 });
 // export type definition of API
