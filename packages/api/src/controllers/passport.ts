@@ -1,11 +1,10 @@
-import { PrismaClient } from '@prisma/client';
 import type { User } from '@repo/types';
 import { type Request, type Response, Router } from 'express';
 
 import passport from 'passport';
 
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
-const prismaClient = new PrismaClient();
+import { prismaClient } from '../libs/PrismaClientSingleton';
 
 const { FRONT_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL } = process.env;
 if (!FRONT_URL || !GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GOOGLE_CALLBACK_URL) {
