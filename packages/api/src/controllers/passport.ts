@@ -12,7 +12,7 @@ if (!FRONT_URL || !GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GOOGLE_CALLBACK
   throw new Error('Please set FRONT_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL');
 }
 
-const userRoutes = Router();
+const passportRoutes = Router();
 
 //セッションに保存
 passport.serializeUser((user, done) => {
@@ -49,23 +49,20 @@ passport.use(
   ),
 );
 
-userRoutes.use(passport.initialize());
-userRoutes.use(passport.session());
-
-userRoutes.get('/logout', (req: { logout: (callback: () => void) => void }, res) => {
+passportRoutes.get('/logout', (req: { logout: (callback: () => void) => void }, res) => {
   req.logout(() => {
     res.redirect(FRONT_URL);
   });
 });
 
-userRoutes.get(
+passportRoutes.get(
   '/auth/google',
   passport.authenticate('google', {
     scope: ['profile', 'email'],
   }),
 );
 
-userRoutes.get(
+passportRoutes.get(
   '/auth/google/callback',
   passport.authenticate('google', {
     failureRedirect: '/',
@@ -109,8 +106,8 @@ userRoutes.get(
   },
 );
 
-userRoutes.get('/me', (req: Request, res: Response) => {
+passportRoutes.get('/me', (req: Request, res: Response) => {
   return res.status(200).json({ currentUser: req.user });
 });
 
-export { userRoutes };
+export { passportRoutes };

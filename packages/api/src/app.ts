@@ -10,7 +10,8 @@ import passport from 'passport';
 import { Pool } from 'pg';
 import z from 'zod';
 import { blogRoutes } from './controllers/blog';
-import { userRoutes } from './controllers/user';
+import { passportRoutes } from './controllers/passport';
+import { userRouter } from './controllers/userRouter';
 import { PrismaClientSingleton } from './libs/PrismaClientSingleton';
 import { errorHandler } from './middlewares/errorHandler';
 import { publicProcedure, router } from './trpc';
@@ -92,7 +93,7 @@ app.use(
   }),
 );
 
-app.use('/users', userRoutes);
+app.use('/users', passportRoutes);
 app.use('/blogs', blogRoutes);
 
 app.get('/message/:name', (req, res) => {
