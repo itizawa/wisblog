@@ -14,7 +14,7 @@ import { passportRoutes } from './controllers/passport';
 import { userRouter } from './controllers/userRouter';
 import { PrismaClientSingleton } from './libs/PrismaClientSingleton';
 import { errorHandler } from './middlewares/errorHandler';
-import { publicProcedure, router } from './trpc';
+import { createContext, publicProcedure, router } from './trpc';
 
 const prismaClient = PrismaClientSingleton.instance;
 
@@ -40,6 +40,7 @@ export const appRouter = router({
 
     return blogs.map(blog => blog.subDomain);
   }),
+  user: userRouter,
 });
 // export type definition of API
 export type AppRouter = typeof appRouter;
@@ -108,6 +109,7 @@ app.use(
   '/trpc',
   trpcExpress.createExpressMiddleware({
     router: appRouter,
+    createContext,
   }),
 );
 app.use(errorHandler);
