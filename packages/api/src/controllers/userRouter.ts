@@ -1,7 +1,9 @@
 import { publicProcedure, router } from '../trpc';
 
 export const userRouter = router({
-  getCurrentUsers: publicProcedure.query(({ ctx }) => {
-    return ctx.user;
+  getCurrentUser: publicProcedure.query(({ ctx }) => {
+    return {
+      currentUser: ctx.user,
+    };
   }),
 });
