@@ -4,6 +4,8 @@ import { Navbar } from '~/components/Navbar';
 import { SnackbarProvider } from '~/context/SnackbarProvider';
 import { ThemeProvider } from '~/context/ThemeProvider';
 
+export const dynamic = 'force-dynamic';
+
 export default async function RootLayout({
   children,
 }: {
