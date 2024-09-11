@@ -1,18 +1,17 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import { fetchMe } from '~/actions/user';
-import { fetchTest } from '~/actions/user';
+import { getCurrentUser } from '~/actions/user';
 import { Navbar } from '~/components/Navbar';
 import { SnackbarProvider } from '~/context/SnackbarProvider';
 import { ThemeProvider } from '~/context/ThemeProvider';
+
+export const dynamic = 'force-dynamic';
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const result = await fetchMe();
-  const res = await fetchTest();
-  console.log(res, 15);
+  const { currentUser } = await getCurrentUser();
 
   return (
     <html lang='ja'>
@@ -20,7 +19,7 @@ export default async function RootLayout({
         <AppRouterCacheProvider options={{ key: 'css' }}>
           <ThemeProvider>
             <SnackbarProvider>
-              <Navbar currentUser={result.isSuccess ? result.data.currentUser : undefined} />
+              <Navbar currentUser={currentUser} />
               {children}
             </SnackbarProvider>
           </ThemeProvider>

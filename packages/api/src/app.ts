@@ -10,10 +10,11 @@ import passport from 'passport';
 import { Pool } from 'pg';
 import z from 'zod';
 import { blogRoutes } from './controllers/blog';
-import { userRoutes } from './controllers/user';
+import { passportRoutes } from './controllers/passport';
+import { userRouter } from './controllers/userRouter';
 import { PrismaClientSingleton } from './libs/PrismaClientSingleton';
 import { errorHandler } from './middlewares/errorHandler';
-import { publicProcedure, router } from './trpc';
+import { createContext, publicProcedure, router } from './trpc';
 
 const prismaClient = PrismaClientSingleton.instance;
 
@@ -39,6 +40,7 @@ export const appRouter = router({
 
     return blogs.map(blog => blog.subDomain);
   }),
+  user: userRouter,
 });
 // export type definition of API
 export type AppRouter = typeof appRouter;
@@ -92,7 +94,7 @@ app.use(
   }),
 );
 
-app.use('/users', userRoutes);
+app.use('/users', passportRoutes);
 app.use('/blogs', blogRoutes);
 
 app.get('/message/:name', (req, res) => {
@@ -107,6 +109,7 @@ app.use(
   '/trpc',
   trpcExpress.createExpressMiddleware({
     router: appRouter,
+    createContext,
   }),
 );
 app.use(errorHandler);
