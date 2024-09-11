@@ -9,7 +9,7 @@ import urlJoin from 'url-join';
 import { WrapperWithMenu } from '../WrapperWithMenu';
 
 type Props = {
-  currentUser: User | undefined;
+  currentUser: User | null;
 };
 
 export const Navbar: FC<Props> = ({ currentUser }) => {
