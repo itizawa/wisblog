@@ -2,9 +2,11 @@ import { ArticleSchema } from '@repo/types';
 import { PrismaClientSingleton } from '../libs/PrismaClientSingleton';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { CreateArticleUseCase } from '../usecases/article/CreateArticleUseCase';
+import { UpdateArticleUseCase } from '../usecases/article/UpdateArticleUseCase';
 
 const prismaClient = PrismaClientSingleton.instance;
 const createArticleUseCase = new CreateArticleUseCase(prismaClient);
+const updateArticleUseCase = new UpdateArticleUseCase(prismaClient);
 
 export const articleRouter = router({
   getArticle: publicProcedure.input(ArticleSchema.pick({ id: true })).mutation(async ({ input }) => {
@@ -37,5 +39,18 @@ export const articleRouter = router({
         authorId: ctx.user.id,
         blogId: input.blogId,
       });
+    }),
+
+  updateArticle: protectedProcedure
+    .input(ArticleSchema.pick({ id: true, title: true, body: true }))
+    .mutation(async ({ ctx, input }) => {
+      return await updateArticleUseCase.execute(
+        {
+          id: input.id,
+          title: input.title,
+          body: input.body,
+        },
+        ctx.user,
+      );
     }),
 });
