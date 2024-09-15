@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@mui/material';
+import { Stack } from '@mui/material';
 import { notFound } from 'next/navigation';
 import { getArticle } from '~/actions/article';
 import { getBlogsBySubDomain } from '~/actions/blog';
@@ -16,7 +16,6 @@ export default async function Page({ params }: { params: { subDomain: string; ar
 
   return (
     <Stack maxWidth={900} mx='auto' pt={4} px={2} gap={2}>
-      <Typography variant='h5'>記事の編集</Typography>
       <ArticleForm
         existedArticle={{
           id: article.id,

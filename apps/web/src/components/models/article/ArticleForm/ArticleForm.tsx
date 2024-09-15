@@ -75,7 +75,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
             fullWidth
             placeholder='タイトルを入力してください'
             label='タイトル'
-            variant='outlined'
+            variant='standard'
             error={!!fieldState.error}
             helperText={fieldState.error?.message}
             sx={{
