@@ -18,9 +18,6 @@ import { createContext, publicProcedure, router } from './trpc';
 const prismaClient = PrismaClientSingleton.instance;
 
 export const appRouter = router({
-  userList: publicProcedure.query(async () => {
-    return { hoge: 'hello trpc' };
-  }),
   getBlogsBySubDomain: publicProcedure
     .input(
       z.object({
@@ -95,10 +92,6 @@ app.use(
 );
 
 app.use('/users', passportRoutes);
-
-app.get('/message/:name', (req, res) => {
-  return res.json({ message: `hello ${req.params.name as Blog['name']}` });
-});
 
 app.get('/status', (_, res) => {
   return res.json({ ok: true });
