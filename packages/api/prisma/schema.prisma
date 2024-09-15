@@ -55,7 +55,7 @@ model Session {
 
 model Blog {
   id        String @id @default(uuid())
-  /// @zod.string.max(255, { message: "名前は255文字未満で入力してください" })
+  /// @zod.string({ required_error: '名前を入力してください' }).max(255, { message: "名前は255文字未満で入力してください" })
   name      String
   /// @zod.string.min(3, { message: "サブドメインは3文字以上で入力してください" })
   subDomain String @unique @map("sub_domain")
