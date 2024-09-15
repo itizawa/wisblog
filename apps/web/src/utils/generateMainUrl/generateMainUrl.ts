@@ -4,5 +4,5 @@ export const generateMainUrl = () => {
   if (currentHost.includes('localhost')) {
     return 'http://localhost:3000';
   }
-  return `https://${currentHost}`;
+  return 'https://wiscro.app';
 };
