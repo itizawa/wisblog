@@ -1,22 +1,22 @@
 services:
-  web:
-    container_name: web
-    build:
-      context: .
-      dockerfile: ./apps/web/Dockerfile
-    ports:
-      - 3000:3000
-    networks:
-      - app_network
-  api:
-    container_name: api
-    build:
-      context: .
-      dockerfile: ./packages/api/Dockerfile
-    ports:
-      - 8080:8080
-    networks:
-      - app_network
+  # web:
+  #   container_name: web
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/web/Dockerfile
+  #   ports:
+  #     - 3000:3000
+  #   networks:
+  #     - app_network
+  # api:
+  #   container_name: api
+  #   build:
+  #     context: .
+  #     dockerfile: ./packages/api/Dockerfile
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #     - app_network
   db:
     image: postgres
     container_name: postgres_wisblog

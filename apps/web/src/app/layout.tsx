@@ -1,6 +1,6 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { getCurrentUser } from '~/actions/user';
-import { Navbar } from '~/components/Navbar';
+import { Navbar } from '~/components/layout/Navbar';
 import { SnackbarProvider } from '~/context/SnackbarProvider';
 import { ThemeProvider } from '~/context/ThemeProvider';
 

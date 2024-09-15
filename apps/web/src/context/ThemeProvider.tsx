@@ -36,6 +36,12 @@ export const ThemeProvider = (props: { children: React.ReactNode }) => {
       background: {
         default: '#111122',
       },
+      primary: {
+        main: '#6020A0',
+        light: alpha('#6020A0', 0.5),
+        dark: alpha('#6020A0', 0.9),
+        contrastText: '#eee',
+      },
       text: {
         primary: '#eee',
       },

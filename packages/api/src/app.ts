@@ -1,4 +1,3 @@
-import type { Blog } from '@repo/types';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import { json, urlencoded } from 'body-parser';
 import connectPgSimple from 'connect-pg-simple';
@@ -8,38 +7,13 @@ import session from 'express-session';
 import morgan from 'morgan';
 import passport from 'passport';
 import { Pool } from 'pg';
-import z from 'zod';
-import { blogRoutes } from './controllers/blog';
+import { blogRouter } from './controllers/blogRouter';
 import { passportRoutes } from './controllers/passport';
 import { userRouter } from './controllers/userRouter';
-import { PrismaClientSingleton } from './libs/PrismaClientSingleton';
-import { errorHandler } from './middlewares/errorHandler';
-import { createContext, publicProcedure, router } from './trpc';
-
-const prismaClient = PrismaClientSingleton.instance;
+import { createContext, router } from './trpc';
 
 export const appRouter = router({
-  userList: publicProcedure.query(async () => {
-    return { hoge: 'hello trpc' };
-  }),
-  getBlogsBySubDomain: publicProcedure
-    .input(
-      z.object({
-        subDomain: z.string(),
-      }),
-    )
-    .query(async ({ input }) => {
-      return await prismaClient.blog.findFirst({
-        where: { subDomain: input.subDomain },
-      });
-    }),
-  getSubDomains: publicProcedure.query(async () => {
-    const blogs = await prismaClient.blog.findMany({
-      select: { subDomain: true },
-    });
-
-    return blogs.map(blog => blog.subDomain);
-  }),
+  blog: blogRouter,
   user: userRouter,
 });
 // export type definition of API
@@ -95,11 +69,6 @@ app.use(
 );
 
 app.use('/users', passportRoutes);
-app.use('/blogs', blogRoutes);
-
-app.get('/message/:name', (req, res) => {
-  return res.json({ message: `hello ${req.params.name as Blog['name']}` });
-});
 
 app.get('/status', (_, res) => {
   return res.json({ ok: true });
@@ -112,6 +81,5 @@ app.use(
     createContext,
   }),
 );
-app.use(errorHandler);
 
 export default app;

@@ -21,10 +21,19 @@ const t = initTRPC.context<typeof createContext>().create();
  * that can be used throughout the router
  */
 export const router = t.router;
-export const publicProcedure = t.procedure;
-export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
+
+const loginRequiredMiddleware = t.middleware(async ({ ctx, next }) => {
   if (!ctx.user) {
     throw new Error('Not authenticated');
   }
-  return next();
+
+  return next({
+    ctx: {
+      ...ctx,
+      user: ctx.user,
+    },
+  });
 });
+
+export const publicProcedure = t.procedure;
+export const protectedProcedure = t.procedure.use(loginRequiredMiddleware);

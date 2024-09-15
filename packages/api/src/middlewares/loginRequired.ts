@@ -1,4 +1,3 @@
-import type { User } from '@repo/types';
 import type { NextFunction, Request, Response } from 'express';
 
 /**
