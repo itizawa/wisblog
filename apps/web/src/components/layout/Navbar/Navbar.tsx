@@ -6,7 +6,7 @@ import type { User } from '@repo/types';
 import Link from 'next/link';
 import type { FC } from 'react';
 import urlJoin from 'url-join';
-import { WrapperWithMenu } from '../WrapperWithMenu';
+import { WrapperWithMenu } from '~/components/uiParts/WrapperWithMenu';
 
 type Props = {
   currentUser: User | null;
