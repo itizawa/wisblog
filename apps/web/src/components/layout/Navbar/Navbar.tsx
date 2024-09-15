@@ -1,12 +1,13 @@
 'use client';
 
-import { Logout } from '@mui/icons-material';
+import { Dashboard, Logout } from '@mui/icons-material';
 import { Avatar, Button, Container, IconButton, Stack, Toolbar, Typography, useTheme } from '@mui/material';
 import type { User } from '@repo/types';
 import Link from 'next/link';
 import type { FC } from 'react';
 import urlJoin from 'url-join';
 import { WrapperWithMenu } from '~/components/uiParts/WrapperWithMenu';
+import { generateMainUrl } from '~/utils/generateMainUrl';
 
 type Props = {
   currentUser: User | null;
@@ -40,6 +41,14 @@ export const Navbar: FC<Props> = ({ currentUser }) => {
           {currentUser ? (
             <WrapperWithMenu
               menuItems={[
+                {
+                  key: 'dashboards',
+                  onClick: () => {
+                    window.location.href = urlJoin(generateMainUrl(), 'dashboards/blogs');
+                  },
+                  text: 'ダッシュボード',
+                  icon: <Dashboard fontSize='small' sx={{ mr: 1 }} />,
+                },
                 {
                   key: 'logout',
                   onClick: () => {

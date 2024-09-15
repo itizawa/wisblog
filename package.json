@@ -18,7 +18,9 @@
     "migrate:dev:reset": "turbo run migrate:dev:reset",
     "migrate:gen": "turbo run migrate:gen --"
   },
-  "dependencies": {},
+  "dependencies": {
+    "date-fns": "^3.6.0"
+  },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
     "turbo": "^2.1.1"
