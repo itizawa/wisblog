@@ -37,9 +37,9 @@ export const ThemeProvider = (props: { children: React.ReactNode }) => {
         default: '#111122',
       },
       primary: {
-        main: '#6020A0',
-        light: alpha('#6020A0', 0.5),
-        dark: alpha('#6020A0', 0.9),
+        main: '#3f51b5',
+        light: alpha('#3f51b5', 0.5),
+        dark: alpha('#3f51b5', 0.9),
         contrastText: '#eee',
       },
       text: {
