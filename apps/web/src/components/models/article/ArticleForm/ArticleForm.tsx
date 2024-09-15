@@ -9,24 +9,30 @@ import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import type { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import urlJoin from 'url-join';
 import type { z } from 'zod';
-import { createArticle } from '~/actions/article';
+import { createArticle, updateArticle } from '~/actions/article';
 import { Editor } from '~/components/uiParts/Editor';
+import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
 
 const inputSchema = ArticleSchema.pick({ title: true, body: true });
 type InputState = z.infer<typeof inputSchema>;
 
 type Props = {
+  subDomain: string;
   blogId: string;
+  existedArticle?: InputState & {
+    id: string;
+  };
 };
 
-export const ArticleForm: FC<Props> = ({ blogId }) => {
+export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { palette } = useTheme();
   const router = useRouter();
 
   const { control, formState, handleSubmit } = useForm<InputState>({
-    defaultValues: {
+    defaultValues: existedArticle || {
       title: '',
       body: '',
     },
@@ -36,13 +42,23 @@ export const ArticleForm: FC<Props> = ({ blogId }) => {
 
   const onSubmit = handleSubmit(async ({ title, body }) => {
     try {
-      await createArticle({
-        title,
-        body,
-        blogId,
-      });
-      enqueueSnackbar({ message: '記事を作成しました', variant: 'success' });
-      router.push('/');
+      if (existedArticle) {
+        const { updatedArticle } = await updateArticle({
+          id: existedArticle.id,
+          title,
+          body,
+        });
+        enqueueSnackbar({ message: '記事を更新しました', variant: 'success' });
+        router.push(urlJoin(generateSubDomainUrl(subDomain), updatedArticle.id));
+      } else {
+        const { createdArticle } = await createArticle({
+          title,
+          body,
+          blogId,
+        });
+        enqueueSnackbar({ message: '記事を作成しました', variant: 'success' });
+        router.push(urlJoin(generateSubDomainUrl(subDomain), createdArticle.id));
+      }
     } catch (error) {
       enqueueSnackbar({ message: (error as Error).message, variant: 'error' });
     }
@@ -59,7 +75,7 @@ export const ArticleForm: FC<Props> = ({ blogId }) => {
             fullWidth
             placeholder='タイトルを入力してください'
             label='タイトル'
-            variant='outlined'
+            variant='standard'
             error={!!fieldState.error}
             helperText={fieldState.error?.message}
             sx={{
@@ -86,7 +102,7 @@ export const ArticleForm: FC<Props> = ({ blogId }) => {
         disabled={formState.isLoading || formState.isSubmitting || !formState.isValid}
         loading={formState.isSubmitting}
       >
-        作成
+        {existedArticle ? '更新' : '作成'}
       </LoadingButton>
     </Stack>
   );

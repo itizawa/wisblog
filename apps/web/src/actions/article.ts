@@ -55,3 +55,19 @@ export const createArticle = async ({
     blogId,
   });
 };
+
+export const updateArticle = async ({
+  id,
+  title,
+  body,
+}: {
+  id: string;
+  title: string;
+  body: string;
+}) => {
+  return await trpcClient.article.updateArticle.mutate({
+    id,
+    title,
+    body,
+  });
+};

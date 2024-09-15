@@ -1,0 +1,1 @@
+export { UpdateArticleUseCase } from './UpdateArticleUseCase';
