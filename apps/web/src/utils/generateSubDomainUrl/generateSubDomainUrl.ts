@@ -2,7 +2,8 @@ export const generateSubDomainUrl = (subDomain: string) => {
   const currentHost = window.location.hostname;
 
   if (currentHost.includes('localhost')) {
-    return `http://${subDomain}.localhost:3000`;
+    // NOTE: ローカルでサブドメインは扱えないので直接ドメインの後ろにつける
+    return `http://localhost:3000/${subDomain}`;
   }
   return `https://${subDomain}.${currentHost}`;
 };
