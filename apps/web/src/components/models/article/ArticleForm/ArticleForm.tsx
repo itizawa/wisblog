@@ -5,6 +5,7 @@ import { NoteAdd } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Stack, TextField, useTheme } from '@mui/material';
 import { ArticleSchema } from '@repo/types';
+import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import type { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -22,6 +23,7 @@ type Props = {
 export const ArticleForm: FC<Props> = ({ blogId }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { palette } = useTheme();
+  const router = useRouter();
 
   const { control, formState, handleSubmit } = useForm<InputState>({
     defaultValues: {
@@ -40,6 +42,7 @@ export const ArticleForm: FC<Props> = ({ blogId }) => {
         blogId,
       });
       enqueueSnackbar({ message: '記事を作成しました', variant: 'success' });
+      router.push('/');
     } catch (error) {
       enqueueSnackbar({ message: (error as Error).message, variant: 'error' });
     }
