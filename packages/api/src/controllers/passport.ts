@@ -101,18 +101,7 @@ passportRoutes.get(
         return next();
       }
 
-      // ユーザーがアクセスしていたホスト名を取得
-      const host = req.headers.host || '';
-      // ローカルホストかどうかを確認
-      if (host.includes('localhost')) {
-        // ローカルホストの場合のリダイレクト先を設定（例: localhost:3000 へのリダイレクト）
-        const redirectUrl = 'http://localhost:3000';
-        return res.redirect(redirectUrl);
-      }
-
-      // サブドメインがある場合は、ホスト名に基づいてリダイレクト先を生成
-      const redirectUrl = `https://${host}`;
-      return res.redirect(redirectUrl);
+      res.redirect(FRONT_URL);
     });
   },
 );
