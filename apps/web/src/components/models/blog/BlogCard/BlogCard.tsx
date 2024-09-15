@@ -13,7 +13,12 @@ export const BlogCard: FC<Props> = ({ blog }) => {
   return (
     <Card>
       <CardContent>
-        <Link href={generateSubDomainUrl(blog.subDomain)} color='info' sx={{ textDecoration: 'none' }}>
+        <Link
+          href={generateSubDomainUrl(blog.subDomain)}
+          underline='hover'
+          color='inherit'
+          sx={{ textDecoration: 'none' }}
+        >
           <Typography variant='h5' component='div'>
             {blog.name}
           </Typography>

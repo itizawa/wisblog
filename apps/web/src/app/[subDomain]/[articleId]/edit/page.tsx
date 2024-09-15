@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: { subDomain: string; ar
   }
 
   return (
-    <Stack maxWidth={900} mx='auto' pt={4} px={2} gap={1}>
+    <Stack maxWidth={900} mx='auto' pt={4} px={2} gap={2}>
       <Typography variant='h5'>記事の編集</Typography>
       <ArticleForm
         existedArticle={{

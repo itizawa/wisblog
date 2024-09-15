@@ -10,7 +10,7 @@ export default async function Page() {
   const { blogs } = await getBlogsByOwnerId({ ownerId: currentUser?.id });
 
   return (
-    <Stack maxWidth={600} mx='auto' pt={4} gap={3} px={2}>
+    <Stack maxWidth={600} mx='auto' py={4} gap={3} px={2}>
       <Typography variant='h5'>ブログ一覧</Typography>
       {blogs.map(blog => (
         <Box key={blog.id} width='100%'>
