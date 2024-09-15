@@ -16,6 +16,14 @@ export const blogRouter = router({
         ownerId: ctx.user.id,
       });
     }),
+  getBlogsByOwnerId: publicProcedure.input(BlogSchema.pick({ ownerId: true })).query(async ({ input }) => {
+    const blogs = await prismaClient.blog.findMany({
+      where: { ownerId: input.ownerId },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return { blogs };
+  }),
   getBlogsBySubDomain: publicProcedure.input(BlogSchema.pick({ subDomain: true })).query(async ({ input }) => {
     return await prismaClient.blog.findFirst({
       where: { subDomain: input.subDomain },
