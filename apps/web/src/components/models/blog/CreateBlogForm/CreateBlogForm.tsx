@@ -20,6 +20,10 @@ export const CreateBlogForm: FC = () => {
   const { palette } = useTheme();
 
   const { control, formState, handleSubmit } = useForm<InputState>({
+    defaultValues: {
+      name: '',
+      subDomain: '',
+    },
     resolver: zodResolver(inputSchema),
     mode: 'onChange',
   });
