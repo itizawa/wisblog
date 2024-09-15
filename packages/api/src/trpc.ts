@@ -1,5 +1,5 @@
 import type { User } from '@repo/types';
-import { TRPCError, initTRPC } from '@trpc/server';
+import { initTRPC } from '@trpc/server';
 import type { CreateHTTPContextOptions } from '@trpc/server/adapters/standalone';
 
 export const createContext = async ({ req }: CreateHTTPContextOptions) => {

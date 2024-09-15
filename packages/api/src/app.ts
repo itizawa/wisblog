@@ -1,4 +1,3 @@
-import type { Blog } from '@repo/types';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import { json, urlencoded } from 'body-parser';
 import connectPgSimple from 'connect-pg-simple';

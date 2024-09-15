@@ -1,4 +1,4 @@
-import { BlogSchema, type User } from '@repo/types';
+import { BlogSchema } from '@repo/types';
 import { PrismaClientSingleton } from '../libs/PrismaClientSingleton';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { CreateBlogUseCase } from '../usecases/blog';
