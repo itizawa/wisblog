@@ -13,7 +13,7 @@ export default async function Page({ params }: { params: { subDomain: string } }
   return (
     <Stack mx='auto' pt={4} gap={3} px={2}>
       <Typography variant='h5'>記事の新規作成</Typography>
-      <ArticleForm blogId={blog.id} />
+      <ArticleForm blogId={blog.id} subDomain={blog.subDomain} />
     </Stack>
   );
 }
