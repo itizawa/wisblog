@@ -39,7 +39,8 @@ model User {
   name      String
   createdAt DateTime @default(now()) @map("created_at")
 
-  blogs Blog[]
+  blogs    Blog[]
+  articles Article[]
 
   @@map("users")
 }
@@ -66,5 +67,25 @@ model Blog {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
 
+  articles Article[]
+
   @@map("blogs")
+}
+
+model Article {
+  id    String @id @default(uuid())
+  /// @zod.string({ required_error: '名前を入力してください' }).max(255, { message: "名前は255文字未満で入力してください" })
+  title String
+  body  String
+
+  blogId String @map("blog_id")
+  blog   Blog   @relation(fields: [blogId], references: [id])
+
+  authorId String @map("author_id")
+  author   User   @relation(fields: [authorId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  @@map("articles")
 }
