@@ -16,6 +16,18 @@ const transferToObject = (
   };
 };
 
+export const getArticle = async ({
+  id,
+}: {
+  id: string;
+}) => {
+  const { article } = await trpcClient.article.getArticle.mutate({
+    id,
+  });
+
+  return article ? transferToObject(article) : null;
+};
+
 export const getArticles = async ({
   blogId,
 }: {

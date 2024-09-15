@@ -1,3 +1,5 @@
+'use client';
+
 export const generateSubDomainUrl = (subDomain: string) => {
   const currentHost = window.location.hostname;
 
