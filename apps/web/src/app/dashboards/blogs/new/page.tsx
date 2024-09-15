@@ -3,7 +3,7 @@ import { CreateBlogForm } from '~/components/models/blog/CreateBlogForm';
 
 export default function Page() {
   return (
-    <Stack maxWidth={500} mx='auto' pt={4} gap={3}>
+    <Stack maxWidth={600} mx='auto' pt={4} gap={3}>
       <Typography variant='h5'>新規作成</Typography>
       <CreateBlogForm />
     </Stack>
