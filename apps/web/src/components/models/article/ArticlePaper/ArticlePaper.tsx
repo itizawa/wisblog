@@ -16,17 +16,16 @@ type Props = {
 export const ArticlePaper: FC<Props> = ({ blog, article }) => {
   const { palette } = useTheme();
   return (
-    <Paper key={article.id} variant='outlined' sx={{ p: 3, a: { color: palette.info.light } }}>
+    <Paper key={article.id} variant='outlined' sx={{ p: 2, display: 'flex', flexDirection: 'column', rowGap: 0.5 }}>
       <Link
         href={urlJoin(generateSubDomainUrl(blog.subDomain), article.id)}
-        color='info'
-        sx={{ textDecoration: 'none' }}
+        sx={{ textDecoration: 'none', color: palette.text.primary }}
       >
         <Typography variant='h5' component='div'>
           {article.title}
         </Typography>
       </Link>
-      <Box display='flex' columnGap={2}>
+      <Box display='flex' columnGap={2} sx={{ pb: 1, borderBottom: `1px solid ${palette.grey[500]}` }}>
         <Typography variant='caption' component='h6'>
           作成日：{format(article.createdAt, 'yyyy-MM-dd HH:mm')}
         </Typography>
@@ -34,7 +33,7 @@ export const ArticlePaper: FC<Props> = ({ blog, article }) => {
           更新日：{format(article.updatedAt, 'yyyy-MM-dd HH:mm')}
         </Typography>
       </Box>
-      {parse(article.body)}
+      <Box sx={{ a: { color: palette.info.light } }}>{parse(article.body)}</Box>
     </Paper>
   );
 };
