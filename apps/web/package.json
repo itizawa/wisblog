@@ -20,6 +20,7 @@
     "@repo/api": "*",
     "@repo/types": "*",
     "@repo/ui": "*",
+    "html-react-parser": "^5.0.6",
     "@tiptap/extension-color": "^2.1.13",
     "@tiptap/extension-heading": "^2.1.13",
     "@tiptap/extension-link": "^2.1.13",
