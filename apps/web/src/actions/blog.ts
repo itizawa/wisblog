@@ -11,3 +11,16 @@ export const getBlogsBySubDomain = async ({ subDomain }: { subDomain: string }) 
 export const getSubDomains = async () => {
   return await trpcClient.getSubDomains.query();
 };
+
+export const createBlog = async ({
+  name,
+  subDomain,
+}: {
+  name: string;
+  subDomain: string;
+}) => {
+  return await trpcClient.blog.createBlog.mutate({
+    name,
+    subDomain,
+  });
+};

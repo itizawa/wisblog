@@ -10,6 +10,7 @@ import passport from 'passport';
 import { Pool } from 'pg';
 import z from 'zod';
 import { blogRoutes } from './controllers/blog';
+import { blogRouter } from './controllers/blogRouter';
 import { passportRoutes } from './controllers/passport';
 import { userRouter } from './controllers/userRouter';
 import { PrismaClientSingleton } from './libs/PrismaClientSingleton';
@@ -40,6 +41,7 @@ export const appRouter = router({
 
     return blogs.map(blog => blog.subDomain);
   }),
+  blog: blogRouter,
   user: userRouter,
 });
 // export type definition of API
