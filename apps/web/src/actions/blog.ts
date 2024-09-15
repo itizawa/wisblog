@@ -3,13 +3,13 @@
 import { trpcClient } from '~/libs/trpcClient/trpcClient';
 
 export const getBlogsBySubDomain = async ({ subDomain }: { subDomain: string }) => {
-  return await trpcClient.getBlogsBySubDomain.query({
+  return await trpcClient.blog.getBlogsBySubDomain.query({
     subDomain,
   });
 };
 
 export const getSubDomains = async () => {
-  return await trpcClient.getSubDomains.query();
+  return await trpcClient.blog.getSubDomains.query();
 };
 
 export const createBlog = async ({

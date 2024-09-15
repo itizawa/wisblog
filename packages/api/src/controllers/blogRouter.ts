@@ -1,10 +1,10 @@
 import { BlogSchema, type User } from '@repo/types';
-import { TRPCError } from '@trpc/server';
 import { PrismaClientSingleton } from '../libs/PrismaClientSingleton';
-import { protectedProcedure, router } from '../trpc';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { CreateBlogUseCase } from '../usecases/blog';
 
-const createBlogUseCase = new CreateBlogUseCase(PrismaClientSingleton.instance);
+const prismaClient = PrismaClientSingleton.instance;
+const createBlogUseCase = new CreateBlogUseCase(prismaClient);
 
 export const blogRouter = router({
   createBlog: protectedProcedure
@@ -16,4 +16,16 @@ export const blogRouter = router({
         ownerId: ctx.user.id,
       });
     }),
+  getBlogsBySubDomain: publicProcedure.input(BlogSchema.pick({ subDomain: true })).query(async ({ input }) => {
+    return await prismaClient.blog.findFirst({
+      where: { subDomain: input.subDomain },
+    });
+  }),
+  getSubDomains: publicProcedure.query(async () => {
+    const blogs = await prismaClient.blog.findMany({
+      select: { subDomain: true },
+    });
+
+    return blogs.map(blog => blog.subDomain);
+  }),
 });

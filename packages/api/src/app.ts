@@ -8,34 +8,12 @@ import session from 'express-session';
 import morgan from 'morgan';
 import passport from 'passport';
 import { Pool } from 'pg';
-import z from 'zod';
 import { blogRouter } from './controllers/blogRouter';
 import { passportRoutes } from './controllers/passport';
 import { userRouter } from './controllers/userRouter';
-import { PrismaClientSingleton } from './libs/PrismaClientSingleton';
-import { createContext, publicProcedure, router } from './trpc';
-
-const prismaClient = PrismaClientSingleton.instance;
+import { createContext, router } from './trpc';
 
 export const appRouter = router({
-  getBlogsBySubDomain: publicProcedure
-    .input(
-      z.object({
-        subDomain: z.string(),
-      }),
-    )
-    .query(async ({ input }) => {
-      return await prismaClient.blog.findFirst({
-        where: { subDomain: input.subDomain },
-      });
-    }),
-  getSubDomains: publicProcedure.query(async () => {
-    const blogs = await prismaClient.blog.findMany({
-      select: { subDomain: true },
-    });
-
-    return blogs.map(blog => blog.subDomain);
-  }),
   blog: blogRouter,
   user: userRouter,
 });
