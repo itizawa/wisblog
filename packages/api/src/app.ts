@@ -9,12 +9,10 @@ import morgan from 'morgan';
 import passport from 'passport';
 import { Pool } from 'pg';
 import z from 'zod';
-import { blogRoutes } from './controllers/blog';
 import { blogRouter } from './controllers/blogRouter';
 import { passportRoutes } from './controllers/passport';
 import { userRouter } from './controllers/userRouter';
 import { PrismaClientSingleton } from './libs/PrismaClientSingleton';
-import { errorHandler } from './middlewares/errorHandler';
 import { createContext, publicProcedure, router } from './trpc';
 
 const prismaClient = PrismaClientSingleton.instance;
@@ -97,7 +95,6 @@ app.use(
 );
 
 app.use('/users', passportRoutes);
-app.use('/blogs', blogRoutes);
 
 app.get('/message/:name', (req, res) => {
   return res.json({ message: `hello ${req.params.name as Blog['name']}` });
@@ -114,6 +111,5 @@ app.use(
     createContext,
   }),
 );
-app.use(errorHandler);
 
 export default app;
