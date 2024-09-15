@@ -1,13 +1,16 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Stack, TextField, useTheme } from '@mui/material';
+import { NoteAdd } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
+import { Stack, TextField, useTheme } from '@mui/material';
 import { BlogSchema } from '@repo/types';
 import { useSnackbar } from 'notistack';
 import type { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import type { z } from 'zod';
 import { createBlog } from '~/actions/blog';
+import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
 
 const inputSchema = BlogSchema.pick({ name: true, subDomain: true });
 type InputState = z.infer<typeof inputSchema>;
@@ -16,7 +19,7 @@ export const CreateBlogForm: FC = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { palette } = useTheme();
 
-  const { control, handleSubmit } = useForm<InputState>({
+  const { control, formState, handleSubmit } = useForm<InputState>({
     resolver: zodResolver(inputSchema),
     mode: 'onChange',
   });
@@ -28,6 +31,7 @@ export const CreateBlogForm: FC = () => {
         subDomain,
       });
       enqueueSnackbar({ message: 'ブログを作成しました', variant: 'success' });
+      window.location.href = generateSubDomainUrl(subDomain);
     } catch (error) {
       enqueueSnackbar({ message: (error as Error).message, variant: 'error' });
     }
@@ -75,9 +79,17 @@ export const CreateBlogForm: FC = () => {
           />
         )}
       />
-      <Button type='submit' variant='contained' color='primary' onClick={onSubmit}>
+      <LoadingButton
+        type='submit'
+        variant='contained'
+        endIcon={<NoteAdd />}
+        color='primary'
+        onClick={onSubmit}
+        disabled={formState.isLoading || formState.isSubmitting || !formState.isValid}
+        loading={formState.isSubmitting}
+      >
         作成
-      </Button>
+      </LoadingButton>
     </Stack>
   );
 };

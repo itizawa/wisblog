@@ -1,0 +1,1 @@
+export { generateSubDomainUrl } from './generateSubDomainUrl';
