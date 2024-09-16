@@ -19,7 +19,7 @@
     "migrate:gen": "turbo run migrate:gen --"
   },
   "dependencies": {
-    "date-fns": "^3.6.0"
+    "date-fns": "^4.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
