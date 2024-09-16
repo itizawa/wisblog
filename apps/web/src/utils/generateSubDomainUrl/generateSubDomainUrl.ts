@@ -7,5 +7,5 @@ export const generateSubDomainUrl = (subDomain: string) => {
     // NOTE: ローカルでサブドメインは扱えないので直接ドメインの後ろにつける
     return `http://localhost:3000/${subDomain}`;
   }
-  return `https://${subDomain}.${currentHost}`;
+  return `https://${subDomain}.wiscro.app`;
 };
