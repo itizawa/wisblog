@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: { subDomain: string } }
   const articles = await getArticles({ blogId: blog.id });
 
   return (
-    <Stack maxWidth={900} mx='auto' pt={4} px={2} gap={3}>
+    <Stack maxWidth={900} mx='auto' py={4} px={2} gap={3}>
       <Typography textAlign='center' variant='h5'>
         {blog.name}
       </Typography>

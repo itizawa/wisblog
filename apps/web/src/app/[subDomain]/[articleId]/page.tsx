@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: { subDomain: string; ar
   }
 
   return (
-    <Stack maxWidth={900} mx='auto' pt={4} px={2} gap={1}>
+    <Stack maxWidth={900} mx='auto' py={4} px={2} gap={1}>
       <ArticleBreadcrumbs blogName={blog.name} blogSubDomain={blog.subDomain} articleTitle={article.title} />
       <ArticlePaper key={article.id} article={article} blog={blog} />
     </Stack>

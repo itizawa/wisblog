@@ -1,5 +1,6 @@
 'use client';
 
+import { Box, useTheme } from '@mui/material';
 import './styles.scss';
 
 import { Color } from '@tiptap/extension-color';
@@ -19,6 +20,8 @@ type Props = {
 };
 
 export const Editor: FC<Props> = ({ body, placeholder, onChange }) => {
+  const { palette } = useTheme();
+
   const extensions = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
     Link.configure(),
@@ -54,5 +57,9 @@ export const Editor: FC<Props> = ({ body, placeholder, onChange }) => {
     },
   });
 
-  return <EditorContent editor={editor} />;
+  return (
+    <Box sx={{ a: { color: palette.info.light } }}>
+      <EditorContent editor={editor} />
+    </Box>
+  );
 };
