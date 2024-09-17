@@ -1,8 +1,10 @@
 'use client';
 
+import './styles.scss';
 import { MoreVert } from '@mui/icons-material';
 import { Box, IconButton, Link, Paper, Typography, useTheme } from '@mui/material';
-import type { Article, Blog } from '@repo/types';
+import { can } from '@repo/access-control';
+import type { Article, Blog, User } from '@repo/types';
 import { format } from 'date-fns';
 import parse from 'html-react-parser';
 import { useRouter } from 'next/navigation';
@@ -12,11 +14,12 @@ import { WrapperWithMenu } from '~/components/uiParts/WrapperWithMenu';
 import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
 
 type Props = {
+  currentUser: User | null;
   blog: Blog;
   article: Article;
 };
 
-export const ArticlePaper: FC<Props> = ({ blog, article }) => {
+export const ArticlePaper: FC<Props> = ({ currentUser, blog, article }) => {
   const { palette } = useTheme();
   const router = useRouter();
   return (
@@ -27,33 +30,37 @@ export const ArticlePaper: FC<Props> = ({ blog, article }) => {
             {article.title}
           </Typography>
         </Link>
-        <WrapperWithMenu
-          menuItems={[
-            {
-              key: 'edit',
-              text: '編集',
-              onClick: () => router.push(urlJoin(generateSubDomainUrl(blog.subDomain), article.id, 'edit')),
-            },
-          ]}
-        >
-          {({ triggerMenu }) => {
-            return (
-              <IconButton onClick={triggerMenu}>
-                <MoreVert />
-              </IconButton>
-            );
-          }}
-        </WrapperWithMenu>
+        {can({ type: 'article', action: 'update', user: currentUser, blog, article }) && (
+          <WrapperWithMenu
+            menuItems={[
+              {
+                key: 'edit',
+                text: '編集',
+                onClick: () => router.push(urlJoin(generateSubDomainUrl(blog.subDomain), article.id, 'edit')),
+              },
+            ]}
+          >
+            {({ triggerMenu }) => {
+              return (
+                <IconButton onClick={triggerMenu}>
+                  <MoreVert />
+                </IconButton>
+              );
+            }}
+          </WrapperWithMenu>
+        )}
       </Box>
-      <Box display='flex' columnGap={2} sx={{ pb: 1, borderBottom: `1px solid ${palette.grey[500]}` }}>
-        <Typography variant='caption' component='h6'>
-          作成日：{format(article.createdAt, 'yyyy-MM-dd HH:mm')}
-        </Typography>
-        <Typography variant='caption' component='h6'>
-          更新日：{format(article.updatedAt, 'yyyy-MM-dd HH:mm')}
-        </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: 3 }}>
+        <Box display='flex' columnGap={2} sx={{ pb: 1, borderBottom: `1px solid ${palette.grey[500]}` }}>
+          <Typography variant='caption' component='h6'>
+            作成日：{format(article.createdAt, 'yyyy-MM-dd HH:mm')}
+          </Typography>
+          <Typography variant='caption' component='h6'>
+            更新日：{format(article.updatedAt, 'yyyy-MM-dd HH:mm')}
+          </Typography>
+        </Box>
+        <div className='preview'>{parse(article.body)}</div>
       </Box>
-      <Box sx={{ a: { color: palette.info.light } }}>{parse(article.body)}</Box>
     </Paper>
   );
 };

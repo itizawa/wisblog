@@ -19,6 +19,7 @@
     "@mui/material-nextjs": "^6.0.0",
     "@repo/api": "*",
     "@repo/types": "*",
+    "@repo/access-control": "*",
     "@repo/ui": "*",
     "html-react-parser": "^5.0.6",
     "@tiptap/extension-color": "^2.1.13",
