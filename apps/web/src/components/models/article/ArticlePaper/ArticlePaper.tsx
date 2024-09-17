@@ -32,7 +32,7 @@ export const ArticlePaper: FC<Props> = ({ currentUser, blog, article }) => {
         {can({
           type: 'article',
           action: 'update',
-          user: currentUser ?? undefined,
+          user: currentUser,
           blog,
           article,
         }) && (

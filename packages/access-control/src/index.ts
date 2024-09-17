@@ -4,33 +4,33 @@ const allowedGuestUser = true;
 
 const accessControlObject = {
   article: {
-    create: ({ user, blog }: { user?: User; blog: Blog }) => !!user && blog.ownerId === user.id,
+    create: ({ user, blog }: { user: User | null; blog: Blog }) => !!user && blog.ownerId === user.id,
     read: () => allowedGuestUser,
-    update: ({ user, article, blog }: { user?: User; article: Article; blog: Blog }) =>
-      !!user && (article.authorId === user.id || blog.ownerId === user.id),
-    delete: ({ user, article, blog }: { user?: User; article: Article; blog: Blog }) =>
-      !!user && (article.authorId === user.id || blog.ownerId === user.id),
+    update: ({ user, article, blog }: { user: User | null; article?: Article; blog: Blog }) =>
+      !!user && !!article && (article.authorId === user.id || blog.ownerId === user.id),
+    delete: ({ user, article, blog }: { user: User | null; article?: Article; blog: Blog }) =>
+      !!user && !!article && (article.authorId === user.id || blog.ownerId === user.id),
   },
   blog: {
-    create: ({ user }: { user?: User }) => !!user,
+    create: ({ user }: { user: User | null }) => !!user,
     read: () => allowedGuestUser,
-    update: ({ user, blog }: { user?: User; blog: Blog }) => !!user && blog.ownerId === user.id,
-    delete: ({ user, blog }: { user?: User; blog: Blog }) => !!user && blog.ownerId === user.id,
+    update: ({ user, blog }: { user: User | null; blog?: Blog }) => !!user && !!blog && blog.ownerId === user.id,
+    delete: ({ user, blog }: { user: User | null; blog?: Blog }) => !!user && !!blog && blog.ownerId === user.id,
   },
 };
 
 type Args = {
   action: 'create' | 'read' | 'update' | 'delete';
-  user?: User;
+  user: User | null;
 } & (
   | {
       type: 'article';
-      article: Article;
+      article?: Article;
       blog: Blog;
     }
   | {
       type: 'blog';
-      blog: Blog;
+      blog?: Blog;
     }
 );
 
