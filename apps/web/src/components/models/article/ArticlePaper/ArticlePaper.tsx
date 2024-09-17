@@ -30,13 +30,7 @@ export const ArticlePaper: FC<Props> = ({ currentUser, blog, article }) => {
             {article.title}
           </Typography>
         </Link>
-        {can({
-          type: 'article',
-          action: 'update',
-          user: currentUser,
-          blog,
-          article,
-        }) && (
+        {can({ type: 'article', action: 'update', user: currentUser, blog, article }) && (
           <WrapperWithMenu
             menuItems={[
               {

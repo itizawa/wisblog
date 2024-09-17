@@ -15,14 +15,7 @@ export default async function Page({ params }: { params: { subDomain: string } }
     return notFound();
   }
 
-  if (
-    !can({
-      type: 'article',
-      action: 'create',
-      user: currentUser,
-      blog,
-    })
-  ) {
+  if (!can({ type: 'article', action: 'create', user: currentUser, blog })) {
     return notFound();
   }
 
