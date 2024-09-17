@@ -1,5 +1,6 @@
 'use client';
 
+import './styles.scss';
 import { MoreVert } from '@mui/icons-material';
 import { Box, IconButton, Link, Paper, Typography, useTheme } from '@mui/material';
 import { can } from '@repo/access-control';
@@ -55,15 +56,17 @@ export const ArticlePaper: FC<Props> = ({ currentUser, blog, article }) => {
           </WrapperWithMenu>
         )}
       </Box>
-      <Box display='flex' columnGap={2} sx={{ pb: 1, borderBottom: `1px solid ${palette.grey[500]}` }}>
-        <Typography variant='caption' component='h6'>
-          作成日：{format(article.createdAt, 'yyyy-MM-dd HH:mm')}
-        </Typography>
-        <Typography variant='caption' component='h6'>
-          更新日：{format(article.updatedAt, 'yyyy-MM-dd HH:mm')}
-        </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: 3 }}>
+        <Box display='flex' columnGap={2} sx={{ pb: 1, borderBottom: `1px solid ${palette.grey[500]}` }}>
+          <Typography variant='caption' component='h6'>
+            作成日：{format(article.createdAt, 'yyyy-MM-dd HH:mm')}
+          </Typography>
+          <Typography variant='caption' component='h6'>
+            更新日：{format(article.updatedAt, 'yyyy-MM-dd HH:mm')}
+          </Typography>
+        </Box>
+        <div className='preview'>{parse(article.body)}</div>
       </Box>
-      <Box sx={{ a: { color: palette.info.light } }}>{parse(article.body)}</Box>
     </Paper>
   );
 };
