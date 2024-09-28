@@ -79,6 +79,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
             error={!!fieldState.error}
             helperText={fieldState.error?.message}
             sx={{
+              fontSize: '1.5rem',
               '.MuiInputLabel-formControl.Mui-focused': {
                 color: palette.text.primary,
               },
