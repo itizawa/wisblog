@@ -41,7 +41,7 @@ model User {
 
   blogs           Blog[]
   publishArticles PublishArticle[]
-  draftArticle    DraftArticle[]
+  draftArticles    DraftArticle[]
 
   @@map("users")
 }
@@ -69,7 +69,7 @@ model Blog {
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
 
   publishArticles PublishArticle[]
-  draftArticle    DraftArticle[]
+  draftArticles    DraftArticle[]
 
   @@map("blogs")
 }

@@ -1,6 +1,6 @@
 import { DraftArticleSchema } from '@repo/types';
 import { PrismaClientSingleton } from '../libs/PrismaClientSingleton';
-import { protectedProcedure, publicProcedure, router } from '../trpc';
+import { protectedProcedure, router } from '../trpc';
 import { CreateDraftArticleUseCase } from '../usecases/draftArticle/CreateDraftArticleUseCase';
 import { UpdateDraftArticleUseCase } from '../usecases/draftArticle/UpdateDraftArticleUseCase';
 
@@ -9,7 +9,7 @@ const createDraftArticleUseCase = new CreateDraftArticleUseCase(prismaClient);
 const updateDraftArticleUseCase = new UpdateDraftArticleUseCase(prismaClient);
 
 export const draftArticleRouter = router({
-  getDraftArticle: publicProcedure.input(DraftArticleSchema.pick({ id: true })).mutation(async ({ input }) => {
+  getDraftArticle: protectedProcedure.input(DraftArticleSchema.pick({ id: true })).mutation(async ({ input }) => {
     const draftArticle = await prismaClient.draftArticle.findFirst({
       where: {
         id: input.id,
@@ -18,7 +18,7 @@ export const draftArticleRouter = router({
 
     return { draftArticle };
   }),
-  getDraftArticles: publicProcedure
+  getDraftArticles: protectedProcedure
     .input(DraftArticleSchema.pick({ blogId: true }))
     .mutation(async ({ ctx, input }) => {
       const draftArticles = await prismaClient.draftArticle.findMany({

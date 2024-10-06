@@ -3,11 +3,11 @@ import type { PublishArticle } from '@repo/types';
 import { ResourceNotFound, UnAuthorized } from '@repo/types';
 
 export class CreateDraftArticleUseCase {
+  static executeArgs: Pick<PublishArticle, 'body' | 'title' | 'authorId' | 'blogId'>;
+
   constructor(private readonly prismaClient: PrismaClient) {}
 
-  async execute(
-    args: Pick<PublishArticle, 'body' | 'title' | 'authorId' | 'blogId'>,
-  ): Promise<{ createdDraftArticle: DraftArticle }> {
+  async execute(args: typeof CreateDraftArticleUseCase.executeArgs): Promise<{ createdDraftArticle: DraftArticle }> {
     const blog = await this.prismaClient.blog.findFirst({
       where: {
         id: args.blogId,
@@ -23,7 +23,12 @@ export class CreateDraftArticleUseCase {
     }
 
     const createdDraftArticle = await this.prismaClient.draftArticle.create({
-      data: args,
+      data: {
+        title: args.title,
+        body: args.body,
+        authorId: args.authorId,
+        blogId: args.blogId,
+      },
     });
 
     return { createdDraftArticle };
