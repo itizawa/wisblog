@@ -4,7 +4,7 @@ import './styles.scss';
 import { MoreVert } from '@mui/icons-material';
 import { Box, IconButton, Link, Paper, Typography, useTheme } from '@mui/material';
 import { can } from '@repo/access-control';
-import type { Article, Blog, User } from '@repo/types';
+import type { Blog, PublishArticle, User } from '@repo/types';
 import { format } from 'date-fns';
 import parse from 'html-react-parser';
 import { useRouter } from 'next/navigation';
@@ -16,7 +16,7 @@ import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
 type Props = {
   currentUser: User | null;
   blog: Blog;
-  article: Article;
+  article: PublishArticle;
 };
 
 export const ArticlePaper: FC<Props> = ({ currentUser, blog, article }) => {
@@ -30,7 +30,7 @@ export const ArticlePaper: FC<Props> = ({ currentUser, blog, article }) => {
             {article.title}
           </Typography>
         </Link>
-        {can({ type: 'article', action: 'update', user: currentUser, blog, article }) && (
+        {can({ type: 'publish_article', action: 'update', user: currentUser, blog, publishArticle: article }) && (
           <WrapperWithMenu
             menuItems={[
               {

@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
 /////////////////////////////////////////
-// ARTICLE SCHEMA
+// PUBLISH ARTICLE SCHEMA
 /////////////////////////////////////////
 
-export const ArticleSchema = z.object({
+export const PublishArticleSchema = z.object({
   id: z.string(),
   title: z
     .string({ required_error: '名前を入力してください' })
@@ -16,6 +16,6 @@ export const ArticleSchema = z.object({
   updatedAt: z.coerce.date(),
 });
 
-export type Article = z.infer<typeof ArticleSchema>;
+export type PublishArticle = z.infer<typeof PublishArticleSchema>;
 
-export default ArticleSchema;
+export default PublishArticleSchema;

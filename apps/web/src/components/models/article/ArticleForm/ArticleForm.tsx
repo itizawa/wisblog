@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { NoteAdd } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Stack, TextField, useTheme } from '@mui/material';
-import { ArticleSchema } from '@repo/types';
+import { PublishArticleSchema } from '@repo/types';
 import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import type { FC } from 'react';
@@ -15,7 +15,7 @@ import { createArticle, updateArticle } from '~/actions/article';
 import { Editor } from '~/components/uiParts/Editor';
 import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
 
-const inputSchema = ArticleSchema.pick({ title: true, body: true });
+const inputSchema = PublishArticleSchema.pick({ title: true, body: true });
 type InputState = z.infer<typeof inputSchema>;
 
 type Props = {

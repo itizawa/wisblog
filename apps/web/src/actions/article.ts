@@ -1,10 +1,10 @@
 'use server';
 
-import type { Article } from '@repo/types';
+import type { PublishArticle } from '@repo/types';
 import { trpcClient } from '~/libs/trpcClient/trpcClient';
 
 const transferToObject = (
-  article: Omit<Article, 'createdAt' | 'updatedAt'> & {
+  article: Omit<PublishArticle, 'createdAt' | 'updatedAt'> & {
     createdAt: string;
     updatedAt: string;
   },

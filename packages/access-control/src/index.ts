@@ -1,14 +1,14 @@
-import type { Article, Blog, User } from '@repo/types';
+import type { Blog, PublishArticle, User } from '@repo/types';
 
 const allowedGuestUser = true;
 
 const accessControlObject = {
-  article: {
+  publish_article: {
     create: ({ user, blog }: { user: User | null; blog: Blog }) => !!user && blog.ownerId === user.id,
     read: () => allowedGuestUser,
-    update: ({ user, article, blog }: { user: User | null; article?: Article; blog: Blog }) =>
+    update: ({ user, article, blog }: { user: User | null; article?: PublishArticle; blog: Blog }) =>
       !!user && !!article && (article.authorId === user.id || blog.ownerId === user.id),
-    delete: ({ user, article, blog }: { user: User | null; article?: Article; blog: Blog }) =>
+    delete: ({ user, article, blog }: { user: User | null; article?: PublishArticle; blog: Blog }) =>
       !!user && !!article && (article.authorId === user.id || blog.ownerId === user.id),
   },
   blog: {
@@ -24,8 +24,8 @@ type Args = {
   user: User | null;
 } & (
   | {
-      type: 'article';
-      article?: Article;
+      type: 'publish_article';
+      publishArticle?: PublishArticle;
       blog: Blog;
     }
   | {
@@ -36,7 +36,7 @@ type Args = {
 
 export const can = (args: Args): boolean => {
   switch (args.type) {
-    case 'article':
+    case 'publish_article':
       return accessControlObject[args.type][args.action](args);
     case 'blog':
       return accessControlObject[args.type][args.action](args);

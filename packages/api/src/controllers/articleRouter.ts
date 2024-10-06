@@ -1,4 +1,4 @@
-import { ArticleSchema } from '@repo/types';
+import { PublishArticleSchema } from '@repo/types';
 import { PrismaClientSingleton } from '../libs/PrismaClientSingleton';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { CreateArticleUseCase } from '../usecases/article/CreateArticleUseCase';
@@ -9,8 +9,8 @@ const createArticleUseCase = new CreateArticleUseCase(prismaClient);
 const updateArticleUseCase = new UpdateArticleUseCase(prismaClient);
 
 export const articleRouter = router({
-  getArticle: publicProcedure.input(ArticleSchema.pick({ id: true })).mutation(async ({ input }) => {
-    const article = await prismaClient.article.findFirst({
+  getArticle: publicProcedure.input(PublishArticleSchema.pick({ id: true })).mutation(async ({ input }) => {
+    const article = await prismaClient.publishArticle.findFirst({
       where: {
         id: input.id,
       },
@@ -18,8 +18,8 @@ export const articleRouter = router({
 
     return { article };
   }),
-  getArticles: publicProcedure.input(ArticleSchema.pick({ blogId: true })).mutation(async ({ ctx, input }) => {
-    const articles = await prismaClient.article.findMany({
+  getArticles: publicProcedure.input(PublishArticleSchema.pick({ blogId: true })).mutation(async ({ ctx, input }) => {
+    const articles = await prismaClient.publishArticle.findMany({
       where: {
         blogId: input.blogId,
       },
@@ -31,7 +31,7 @@ export const articleRouter = router({
     return { articles };
   }),
   createArticle: protectedProcedure
-    .input(ArticleSchema.pick({ title: true, body: true, blogId: true }))
+    .input(PublishArticleSchema.pick({ title: true, body: true, blogId: true }))
     .mutation(async ({ ctx, input }) => {
       return await createArticleUseCase.execute({
         title: input.title,
@@ -42,7 +42,7 @@ export const articleRouter = router({
     }),
 
   updateArticle: protectedProcedure
-    .input(ArticleSchema.pick({ id: true, title: true, body: true }))
+    .input(PublishArticleSchema.pick({ id: true, title: true, body: true }))
     .mutation(async ({ ctx, input }) => {
       return await updateArticleUseCase.execute(
         {

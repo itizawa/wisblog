@@ -1,12 +1,12 @@
 import type { DraftArticle, PrismaClient } from '@prisma/client';
-import type { Article } from '@repo/types';
+import type { PublishArticle } from '@repo/types';
 import { ResourceNotFound, UnAuthorized } from '@repo/types';
 
 export class CreateDraftArticleUseCase {
   constructor(private readonly prismaClient: PrismaClient) {}
 
   async execute(
-    args: Pick<Article, 'body' | 'title' | 'authorId' | 'blogId'>,
+    args: Pick<PublishArticle, 'body' | 'title' | 'authorId' | 'blogId'>,
   ): Promise<{ createdDraftArticle: DraftArticle }> {
     const blog = await this.prismaClient.blog.findFirst({
       where: {

@@ -1,14 +1,14 @@
 import type { PrismaClient } from '@prisma/client';
-import type { Article, User } from '@repo/types';
+import type { PublishArticle, User } from '@repo/types';
 
 export class UpdateArticleUseCase {
   constructor(private readonly prismaClient: PrismaClient) {}
 
   async execute(
-    args: Pick<Article, 'body' | 'title' | 'id'>,
+    args: Pick<PublishArticle, 'body' | 'title' | 'id'>,
     requestedUser: User,
-  ): Promise<{ updatedArticle: Article }> {
-    const updatedArticle = await this.prismaClient.article.update({
+  ): Promise<{ updatedArticle: PublishArticle }> {
+    const updatedArticle = await this.prismaClient.publishArticle.update({
       where: {
         id: args.id,
         authorId: requestedUser.id,
