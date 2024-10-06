@@ -9,12 +9,14 @@ import passport from 'passport';
 import { Pool } from 'pg';
 import { articleRouter } from './controllers/articleRouter';
 import { blogRouter } from './controllers/blogRouter';
+import { draftArticleRouter } from './controllers/draftRouter';
 import { passportRoutes } from './controllers/passport';
 import { userRouter } from './controllers/userRouter';
 import { createContext, router } from './trpc';
 
 export const appRouter = router({
   article: articleRouter,
+  draftArticle: draftArticleRouter,
   blog: blogRouter,
   user: userRouter,
 });
