@@ -9,7 +9,7 @@ const createDraftArticleUseCase = new CreateDraftArticleUseCase(prismaClient);
 const updateDraftArticleUseCase = new UpdateDraftArticleUseCase(prismaClient);
 
 export const draftArticleRouter = router({
-  getDraftArticle: protectedProcedure.input(DraftArticleSchema.pick({ id: true })).mutation(async ({ input }) => {
+  get: protectedProcedure.input(DraftArticleSchema.pick({ id: true })).mutation(async ({ input }) => {
     const draftArticle = await prismaClient.draftArticle.findFirst({
       where: {
         id: input.id,
@@ -18,21 +18,19 @@ export const draftArticleRouter = router({
 
     return { draftArticle };
   }),
-  getDraftArticles: protectedProcedure
-    .input(DraftArticleSchema.pick({ blogId: true }))
-    .mutation(async ({ ctx, input }) => {
-      const draftArticles = await prismaClient.draftArticle.findMany({
-        where: {
-          blogId: input.blogId,
-        },
-        orderBy: {
-          createdAt: 'desc',
-        },
-      });
+  list: protectedProcedure.input(DraftArticleSchema.pick({ blogId: true })).mutation(async ({ ctx, input }) => {
+    const draftArticles = await prismaClient.draftArticle.findMany({
+      where: {
+        blogId: input.blogId,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
 
-      return { draftArticles };
-    }),
-  createDraftArticle: protectedProcedure
+    return { draftArticles };
+  }),
+  create: protectedProcedure
     .input(DraftArticleSchema.pick({ title: true, body: true, blogId: true }))
     .mutation(async ({ ctx, input }) => {
       return await createDraftArticleUseCase.execute({
@@ -43,7 +41,7 @@ export const draftArticleRouter = router({
       });
     }),
 
-  updateDraftArticle: protectedProcedure
+  update: protectedProcedure
     .input(DraftArticleSchema.pick({ id: true, title: true, body: true }))
     .mutation(async ({ ctx, input }) => {
       return await updateDraftArticleUseCase.execute(

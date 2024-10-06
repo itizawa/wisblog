@@ -133,7 +133,7 @@ view Article {
 
 enum Status {
   publish
-  graft
+  draft
 
   @@map("statuses")
 }

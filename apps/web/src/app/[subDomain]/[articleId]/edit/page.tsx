@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: { subDomain: string; ar
   }
 
   return (
-    <Stack maxWidth={900} mx='auto' py={4} px={2} gap={2}>
+    <Stack maxWidth={1260} mx='auto' py={4} px={2} gap={2}>
       <ArticleForm
         existedArticle={{
           id: article.id,
