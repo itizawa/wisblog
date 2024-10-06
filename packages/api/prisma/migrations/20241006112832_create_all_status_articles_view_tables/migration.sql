@@ -4,7 +4,7 @@ CREATE VIEW articles AS
     title,
     body,
     blog_id,
-    author_id
+    author_id,
     created_at,
     updated_at,
     'publish' AS status
@@ -19,7 +19,7 @@ CREATE VIEW articles AS
     title,
     body,
     blog_id,
-    author_id
+    author_id,
     created_at,
     updated_at,
     'draft' AS status
