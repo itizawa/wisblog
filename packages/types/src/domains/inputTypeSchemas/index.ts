@@ -5,6 +5,7 @@ export { SessionScalarFieldEnumSchema } from './SessionScalarFieldEnumSchema';
 export { BlogScalarFieldEnumSchema } from './BlogScalarFieldEnumSchema';
 export { PublishArticleScalarFieldEnumSchema } from './PublishArticleScalarFieldEnumSchema';
 export { DraftArticleScalarFieldEnumSchema } from './DraftArticleScalarFieldEnumSchema';
+export { ArticleScalarFieldEnumSchema } from './ArticleScalarFieldEnumSchema';
 export { SortOrderSchema } from './SortOrderSchema';
 export { JsonNullValueInputSchema } from './JsonNullValueInputSchema';
 export { QueryModeSchema } from './QueryModeSchema';
