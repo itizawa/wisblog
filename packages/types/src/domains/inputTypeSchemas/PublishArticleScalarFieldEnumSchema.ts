@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const ArticleScalarFieldEnumSchema = z.enum([
+export const PublishArticleScalarFieldEnumSchema = z.enum([
   'id',
   'title',
   'body',
@@ -10,4 +10,4 @@ export const ArticleScalarFieldEnumSchema = z.enum([
   'updatedAt',
 ]);
 
-export default ArticleScalarFieldEnumSchema;
+export default PublishArticleScalarFieldEnumSchema;
