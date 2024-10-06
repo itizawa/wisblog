@@ -6,10 +6,10 @@ const accessControlObject = {
   publish_article: {
     create: ({ user, blog }: { user: User | null; blog: Blog }) => !!user && blog.ownerId === user.id,
     read: () => allowedGuestUser,
-    update: ({ user, article, blog }: { user: User | null; article?: PublishArticle; blog: Blog }) =>
-      !!user && !!article && (article.authorId === user.id || blog.ownerId === user.id),
-    delete: ({ user, article, blog }: { user: User | null; article?: PublishArticle; blog: Blog }) =>
-      !!user && !!article && (article.authorId === user.id || blog.ownerId === user.id),
+    update: ({ user, publishArticle, blog }: { user: User | null; publishArticle?: PublishArticle; blog: Blog }) =>
+      !!user && !!publishArticle && (publishArticle.authorId === user.id || blog.ownerId === user.id),
+    delete: ({ user, publishArticle, blog }: { user: User | null; publishArticle?: PublishArticle; blog: Blog }) =>
+      !!user && !!publishArticle && (publishArticle.authorId === user.id || blog.ownerId === user.id),
   },
   blog: {
     create: ({ user }: { user: User | null }) => !!user,
