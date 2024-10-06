@@ -1,7 +1,7 @@
 import { Stack, Typography } from '@mui/material';
 import { notFound } from 'next/navigation';
-import { getPublishArticles } from '~/actions/article';
 import { getBlogsBySubDomain } from '~/actions/blog';
+import { getPublishArticles } from '~/actions/publishArticle';
 import { getCurrentUser } from '~/actions/user';
 import { ArticlePaper } from '~/components/models/article/ArticlePaper';
 

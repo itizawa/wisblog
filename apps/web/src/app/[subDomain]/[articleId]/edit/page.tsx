@@ -1,13 +1,13 @@
 import { Stack } from '@mui/material';
 import { notFound } from 'next/navigation';
-import { getPublishArticle } from '~/actions/article';
+import { getArticle } from '~/actions/article';
 import { getBlogsBySubDomain } from '~/actions/blog';
 import { ArticleForm } from '~/components/models/article/ArticleForm';
 
 export default async function Page({ params }: { params: { subDomain: string; articleId: string } }) {
   const [blog, article] = await Promise.all([
     getBlogsBySubDomain({ subDomain: params.subDomain }),
-    getPublishArticle({ id: params.articleId }),
+    getArticle({ id: params.articleId }),
   ]);
 
   if (!blog || !article) {
@@ -15,12 +15,13 @@ export default async function Page({ params }: { params: { subDomain: string; ar
   }
 
   return (
-    <Stack maxWidth={900} mx='auto' py={4} px={2} gap={2}>
+    <Stack maxWidth={1260} mx='auto' py={4} px={2} gap={2}>
       <ArticleForm
         existedArticle={{
           id: article.id,
           title: article.title,
           body: article.body,
+          status: article.status,
         }}
         subDomain={blog.subDomain}
         blogId={blog.id}

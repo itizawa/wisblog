@@ -41,7 +41,8 @@ model User {
 
   blogs           Blog[]
   publishArticles PublishArticle[]
-  draftArticles    DraftArticle[]
+  draftArticles   DraftArticle[]
+  articles        Article[]
 
   @@map("users")
 }
@@ -69,7 +70,8 @@ model Blog {
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
 
   publishArticles PublishArticle[]
-  draftArticles    DraftArticle[]
+  draftArticles   DraftArticle[]
+  articles        Article[]
 
   @@map("blogs")
 }
@@ -108,4 +110,30 @@ model DraftArticle {
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
 
   @@map("draft_articles")
+}
+
+view Article {
+  id    String @id
+  title String
+  body  String
+
+  status Status
+
+  blogId String @map("blog_id")
+  blog   Blog   @relation(fields: [blogId], references: [id])
+
+  authorId String @map("author_id")
+  author   User   @relation(fields: [authorId], references: [id])
+
+  createdAt DateTime @map("created_at") @db.Timestamptz()
+  updatedAt DateTime @map("updated_at") @db.Timestamptz()
+
+  @@map("articles")
+}
+
+enum Status {
+  publish
+  draft
+
+  @@map("statuses")
 }
