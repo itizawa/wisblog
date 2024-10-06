@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: { subDomain: string } }
   }
 
   return (
-    <Stack maxWidth={900} mx='auto' pt={4} gap={3} px={2}>
+    <Stack maxWidth={900} mx='auto' py={4} gap={3} px={2}>
       <ArticleForm blogId={blog.id} subDomain={blog.subDomain} />
     </Stack>
   );
