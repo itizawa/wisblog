@@ -8,7 +8,7 @@ import morgan from 'morgan';
 import passport from 'passport';
 import { Pool } from 'pg';
 import { blogRouter } from './controllers/blogRouter';
-import { draftArticleRouter } from './controllers/draftRouter';
+import { draftArticleRouter } from './controllers/draftArticleRouter';
 import { passportRoutes } from './controllers/passport';
 import { publishArticleRouter } from './controllers/publishArticleRouter';
 import { userRouter } from './controllers/userRouter';
