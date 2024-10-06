@@ -30,7 +30,7 @@ type Props = {
 
 export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) => {
   const { enqueueSnackbar } = useSnackbar();
-  const { palette } = useTheme();
+  const { palette, breakpoints } = useTheme();
   const router = useRouter();
 
   const { control, getValues, formState } = useForm<InputState>({
@@ -100,8 +100,18 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
     }
   };
 
+  console.log(breakpoints.down('xs'), 103);
+
   return (
-    <Stack direction='row' columnGap='16px'>
+    <Stack
+      sx={{
+        flexDirection: {
+          xs: 'column',
+          sm: 'row',
+        },
+      }}
+      gap='16px'
+    >
       <Stack gap={2} flex={1}>
         <Controller
           name='title'
@@ -133,7 +143,21 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
         />
       </Stack>
       <Box>
-        <Paper variant='outlined' sx={{ p: 2, display: 'flex', flexDirection: 'column', width: 300, rowGap: 3 }}>
+        <Paper
+          variant='outlined'
+          sx={{
+            p: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            width: {
+              xs: '100%',
+              sm: 300,
+            },
+            rowGap: 3,
+            position: 'sticky',
+            top: 24,
+          }}
+        >
           <Typography variant='body1'>記事詳細</Typography>
           <Stack gap='16px'>
             <LoadingButton
