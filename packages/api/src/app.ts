@@ -7,6 +7,7 @@ import session from 'express-session';
 import morgan from 'morgan';
 import passport from 'passport';
 import { Pool } from 'pg';
+import { articleRouter } from './controllers/articleRouter';
 import { blogRouter } from './controllers/blogRouter';
 import { draftArticleRouter } from './controllers/draftArticleRouter';
 import { passportRoutes } from './controllers/passport';
@@ -15,6 +16,7 @@ import { userRouter } from './controllers/userRouter';
 import { createContext, router } from './trpc';
 
 export const appRouter = router({
+  article: articleRouter,
   publishArticle: publishArticleRouter,
   draftArticle: draftArticleRouter,
   blog: blogRouter,

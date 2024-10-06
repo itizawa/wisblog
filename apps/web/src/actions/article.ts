@@ -1,10 +1,10 @@
 'use server';
 
-import type { PublishArticle } from '@repo/types';
+import type { Article } from '@repo/types';
 import { trpcClient } from '~/libs/trpcClient/trpcClient';
 
 const transferToObject = (
-  article: Omit<PublishArticle, 'createdAt' | 'updatedAt'> & {
+  article: Omit<Article, 'createdAt' | 'updatedAt'> & {
     createdAt: string;
     updatedAt: string;
   },
@@ -16,58 +16,14 @@ const transferToObject = (
   };
 };
 
-export const getPublishArticle = async ({
+export const getArticle = async ({
   id,
 }: {
   id: string;
 }) => {
-  const { article } = await trpcClient.publishArticle.get.mutate({
+  const { article } = await trpcClient.article.get.mutate({
     id,
   });
 
   return article ? transferToObject(article) : null;
-};
-
-export const getPublishArticles = async ({
-  blogId,
-}: {
-  blogId: string;
-}) => {
-  const { articles } = await trpcClient.publishArticle.list.mutate({
-    blogId,
-  });
-
-  return articles.map(transferToObject);
-};
-
-export const createPublishArticle = async ({
-  title,
-  body,
-  blogId,
-}: {
-  title: string;
-  body: string;
-  blogId: string;
-}) => {
-  return await trpcClient.publishArticle.create.mutate({
-    title,
-    body,
-    blogId,
-  });
-};
-
-export const updatePublishArticle = async ({
-  id,
-  title,
-  body,
-}: {
-  id: string;
-  title: string;
-  body: string;
-}) => {
-  return await trpcClient.publishArticle.update.mutate({
-    id,
-    title,
-    body,
-  });
 };

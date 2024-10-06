@@ -10,5 +10,6 @@ export { SortOrderSchema } from './SortOrderSchema';
 export { JsonNullValueInputSchema } from './JsonNullValueInputSchema';
 export { QueryModeSchema } from './QueryModeSchema';
 export { JsonNullValueFilterSchema } from './JsonNullValueFilterSchema';
+export { StatusSchema } from './StatusSchema';
 export { InputJsonValueSchema } from './InputJsonValueSchema';
 export { JsonValueSchema } from './JsonValueSchema';
