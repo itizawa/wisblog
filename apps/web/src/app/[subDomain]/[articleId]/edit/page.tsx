@@ -1,13 +1,13 @@
 import { Stack } from '@mui/material';
 import { notFound } from 'next/navigation';
-import { getArticle } from '~/actions/article';
+import { getPublishArticle } from '~/actions/article';
 import { getBlogsBySubDomain } from '~/actions/blog';
 import { ArticleForm } from '~/components/models/article/ArticleForm';
 
 export default async function Page({ params }: { params: { subDomain: string; articleId: string } }) {
   const [blog, article] = await Promise.all([
     getBlogsBySubDomain({ subDomain: params.subDomain }),
-    getArticle({ id: params.articleId }),
+    getPublishArticle({ id: params.articleId }),
   ]);
 
   if (!blog || !article) {

@@ -16,31 +16,31 @@ const transferToObject = (
   };
 };
 
-export const getArticle = async ({
+export const getPublishArticle = async ({
   id,
 }: {
   id: string;
 }) => {
-  const { article } = await trpcClient.article.getArticle.mutate({
+  const { article } = await trpcClient.publishArticle.get.mutate({
     id,
   });
 
   return article ? transferToObject(article) : null;
 };
 
-export const getArticles = async ({
+export const getPublishArticles = async ({
   blogId,
 }: {
   blogId: string;
 }) => {
-  const { articles } = await trpcClient.article.getArticles.mutate({
+  const { articles } = await trpcClient.publishArticle.list.mutate({
     blogId,
   });
 
   return articles.map(transferToObject);
 };
 
-export const createArticle = async ({
+export const createPublishArticle = async ({
   title,
   body,
   blogId,
@@ -49,14 +49,14 @@ export const createArticle = async ({
   body: string;
   blogId: string;
 }) => {
-  return await trpcClient.article.createArticle.mutate({
+  return await trpcClient.publishArticle.create.mutate({
     title,
     body,
     blogId,
   });
 };
 
-export const updateArticle = async ({
+export const updatePublishArticle = async ({
   id,
   title,
   body,
@@ -65,7 +65,7 @@ export const updateArticle = async ({
   title: string;
   body: string;
 }) => {
-  return await trpcClient.article.updateArticle.mutate({
+  return await trpcClient.publishArticle.update.mutate({
     id,
     title,
     body,

@@ -8,8 +8,8 @@ const prismaClient = PrismaClientSingleton.instance;
 const createArticleUseCase = new CreateArticleUseCase(prismaClient);
 const updateArticleUseCase = new UpdateArticleUseCase(prismaClient);
 
-export const articleRouter = router({
-  getArticle: publicProcedure.input(PublishArticleSchema.pick({ id: true })).mutation(async ({ input }) => {
+export const publishArticleRouter = router({
+  get: publicProcedure.input(PublishArticleSchema.pick({ id: true })).mutation(async ({ input }) => {
     const article = await prismaClient.publishArticle.findFirst({
       where: {
         id: input.id,
@@ -18,7 +18,7 @@ export const articleRouter = router({
 
     return { article };
   }),
-  getArticles: publicProcedure.input(PublishArticleSchema.pick({ blogId: true })).mutation(async ({ ctx, input }) => {
+  list: publicProcedure.input(PublishArticleSchema.pick({ blogId: true })).mutation(async ({ ctx, input }) => {
     const articles = await prismaClient.publishArticle.findMany({
       where: {
         blogId: input.blogId,
@@ -30,7 +30,7 @@ export const articleRouter = router({
 
     return { articles };
   }),
-  createArticle: protectedProcedure
+  create: protectedProcedure
     .input(PublishArticleSchema.pick({ title: true, body: true, blogId: true }))
     .mutation(async ({ ctx, input }) => {
       return await createArticleUseCase.execute({
@@ -41,7 +41,7 @@ export const articleRouter = router({
       });
     }),
 
-  updateArticle: protectedProcedure
+  update: protectedProcedure
     .input(PublishArticleSchema.pick({ id: true, title: true, body: true }))
     .mutation(async ({ ctx, input }) => {
       return await updateArticleUseCase.execute(

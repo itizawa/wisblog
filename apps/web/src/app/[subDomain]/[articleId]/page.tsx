@@ -1,6 +1,6 @@
 import { Stack } from '@mui/material';
 import { notFound } from 'next/navigation';
-import { getArticle } from '~/actions/article';
+import { getPublishArticle } from '~/actions/article';
 import { getBlogsBySubDomain } from '~/actions/blog';
 import { getCurrentUser } from '~/actions/user';
 import { ArticleBreadcrumbs } from '~/components/models/article/ArticleBreadcrumbs';
@@ -9,7 +9,7 @@ import { ArticlePaper } from '~/components/models/article/ArticlePaper';
 export default async function Page({ params }: { params: { subDomain: string; articleId: string } }) {
   const [blog, article, { currentUser }] = await Promise.all([
     getBlogsBySubDomain({ subDomain: params.subDomain }),
-    getArticle({ id: params.articleId }),
+    getPublishArticle({ id: params.articleId }),
     getCurrentUser(),
   ]);
 

@@ -11,7 +11,7 @@ import type { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import urlJoin from 'url-join';
 import type { z } from 'zod';
-import { createArticle, updateArticle } from '~/actions/article';
+import { createPublishArticle, updatePublishArticle } from '~/actions/article';
 import { Editor } from '~/components/uiParts/Editor';
 import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
 
@@ -43,7 +43,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
   const onSubmit = handleSubmit(async ({ title, body }) => {
     try {
       if (existedArticle) {
-        const { updatedArticle } = await updateArticle({
+        const { updatedArticle } = await updatePublishArticle({
           id: existedArticle.id,
           title,
           body,
@@ -51,7 +51,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
         enqueueSnackbar({ message: '記事を更新しました', variant: 'success' });
         router.push(urlJoin(generateSubDomainUrl(subDomain), updatedArticle.id));
       } else {
-        const { createdArticle } = await createArticle({
+        const { createdArticle } = await createPublishArticle({
           title,
           body,
           blogId,

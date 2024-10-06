@@ -1,6 +1,6 @@
 import { Stack, Typography } from '@mui/material';
 import { notFound } from 'next/navigation';
-import { getArticles } from '~/actions/article';
+import { getPublishArticles } from '~/actions/article';
 import { getBlogsBySubDomain } from '~/actions/blog';
 import { getCurrentUser } from '~/actions/user';
 import { ArticlePaper } from '~/components/models/article/ArticlePaper';
@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: { subDomain: string } }
     return notFound();
   }
 
-  const articles = await getArticles({ blogId: blog.id });
+  const articles = await getPublishArticles({ blogId: blog.id });
 
   return (
     <Stack maxWidth={900} mx='auto' py={4} px={2} gap={3}>
