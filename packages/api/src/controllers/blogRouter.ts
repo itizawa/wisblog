@@ -1,4 +1,5 @@
 import { BlogSchema } from '@repo/types';
+import { z } from 'zod';
 import { PrismaClientSingleton } from '../libs/PrismaClientSingleton';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { CreateBlogUseCase } from '../usecases/blog';
@@ -16,6 +17,11 @@ export const blogRouter = router({
         ownerId: ctx.user.id,
       });
     }),
+  get: publicProcedure.input(z.object({ id: z.string() })).query(async ({ input }) => {
+    return await prismaClient.blog.findFirst({
+      where: { ownerId: input.id },
+    });
+  }),
   getBlogsByOwnerId: publicProcedure.input(BlogSchema.pick({ ownerId: true })).query(async ({ input }) => {
     const blogs = await prismaClient.blog.findMany({
       where: { ownerId: input.ownerId },
