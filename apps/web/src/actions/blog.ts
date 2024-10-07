@@ -26,6 +26,12 @@ export const getBlogsByOwnerId = async ({ ownerId }: { ownerId: string }) => {
   };
 };
 
+export const getBlog = async ({ id }: { id: string }) => {
+  const blog = await trpcClient.blog.get.query({ id });
+
+  return blog ? transferToObject(blog) : null;
+};
+
 export const getBlogsBySubDomain = async ({ subDomain }: { subDomain: string }) => {
   const blog = await trpcClient.blog.getBlogsBySubDomain.query({
     subDomain,
