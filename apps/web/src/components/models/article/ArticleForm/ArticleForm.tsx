@@ -100,8 +100,6 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
     }
   };
 
-  console.log(breakpoints.down('xs'), 103);
-
   return (
     <Stack
       sx={{
