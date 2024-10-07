@@ -1,0 +1,1 @@
+export { ArticleSummaryPaperForAdmin } from './ArticleSummaryPaperForAdmin';
