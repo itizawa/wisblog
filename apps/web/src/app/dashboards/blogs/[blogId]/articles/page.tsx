@@ -8,11 +8,11 @@ import { getPublishArticles } from '~/actions/publishArticle';
 import { getCurrentUser } from '~/actions/user';
 import { ArticleSummaryPaperForAdmin } from '~/components/models/article/ArticleSummaryPaperForAdmin';
 
-export default async function Page() {
+export default async function Page({ params }: { params: { blogId: string } }) {
   const { currentUser } = await getCurrentUser();
   if (!currentUser) return null;
 
-  const blog = await getBlog({ id: currentUser?.id });
+  const blog = await getBlog({ id: params.blogId });
 
   if (!blog) return notFound();
 
