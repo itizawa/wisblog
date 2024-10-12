@@ -5,4 +5,8 @@ export const appUrls = {
       articles: (blogId: string) => `/dashboards/blogs/${blogId}/articles` as const,
     },
   },
+  blogs: {
+    top: () => '/' as const,
+    article: (id: string) => `/${id}` as const,
+  },
 };

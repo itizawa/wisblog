@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { NoteAdd } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
-import { Box, Paper, Stack, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Link, Paper, Stack, TextField, Typography, useTheme } from '@mui/material';
 import { type Article, ArticleSchema } from '@repo/types';
 import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
@@ -14,6 +14,7 @@ import type { z } from 'zod';
 import { createDraftArticle, updateDraftArticle } from '~/actions/draftArticle';
 import { createPublishArticle, updatePublishArticle } from '~/actions/publishArticle';
 import { Editor } from '~/components/uiParts/Editor';
+import { appUrls } from '~/constants/appUrls';
 import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
 
 const inputSchema = ArticleSchema.pick({ title: true, body: true });
@@ -156,7 +157,17 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
             top: 24,
           }}
         >
-          <Typography variant='body1'>記事詳細</Typography>
+          <Typography variant='body1'>記事設定</Typography>
+          {existedArticle && (
+            <Link
+              underline='hover'
+              color='inherit'
+              target='_blank'
+              href={urlJoin(generateSubDomainUrl(subDomain), appUrls.blogs.article(existedArticle.id))}
+            >
+              <Typography variant='body2'>実際の画面に飛ぶ</Typography>
+            </Link>
+          )}
           <Stack gap='16px'>
             <LoadingButton
               type='submit'
