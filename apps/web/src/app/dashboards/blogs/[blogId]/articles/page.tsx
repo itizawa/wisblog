@@ -1,4 +1,3 @@
-import {} from '@mui/lab';
 import { CircularProgress, Stack, Typography } from '@mui/material';
 import type { Blog } from '@repo/types';
 import { notFound } from 'next/navigation';
