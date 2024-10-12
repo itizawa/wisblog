@@ -43,7 +43,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       domain: process.env.MAIN_DOMAIN,
-      maxAge: 24 * 60 * 60 * 1000, // クッキーの有効期限(msec)
+      maxAge: 30 * 24 * 60 * 60 * 1000, // クッキーの有効期限(msec) 30日
       path: '/',
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
