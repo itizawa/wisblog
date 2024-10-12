@@ -19,7 +19,7 @@ export const blogRouter = router({
     }),
   get: publicProcedure.input(z.object({ id: z.string() })).query(async ({ input }) => {
     return await prismaClient.blog.findFirst({
-      where: { ownerId: input.id },
+      where: { id: input.id },
     });
   }),
   getBlogsByOwnerId: publicProcedure.input(BlogSchema.pick({ ownerId: true })).query(async ({ input }) => {
