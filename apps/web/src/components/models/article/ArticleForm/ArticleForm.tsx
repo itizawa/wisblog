@@ -80,7 +80,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
             blogId,
           });
           enqueueSnackbar({ message: '記事を公開しました', variant: 'success' });
-          router.push(urlJoin(generateSubDomainUrl(subDomain), createdArticle.id));
+          router.push(appUrls.dashboard.blogs.articles.edit(blogId, createdArticle.id));
           return;
         }
         case 'draft': {
@@ -90,7 +90,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
             blogId,
           });
           enqueueSnackbar({ message: '記事を下書きで作成しました', variant: 'success' });
-          router.push(urlJoin(generateSubDomainUrl(subDomain), createdDraftArticle.id));
+          router.push(appUrls.dashboard.blogs.articles.edit(blogId, createdDraftArticle.id));
           return;
         }
         default:
