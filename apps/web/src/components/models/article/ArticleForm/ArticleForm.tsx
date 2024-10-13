@@ -5,14 +5,14 @@ import { NoteAdd } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Box, Link, Paper, Stack, TextField, Typography, useTheme } from '@mui/material';
 import { type Article, ArticleSchema } from '@repo/types';
-import { useRouter } from 'next/navigation';
+import { throttle } from 'lodash';
 import { useSnackbar } from 'notistack';
 import type { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import urlJoin from 'url-join';
 import type { z } from 'zod';
-import { createDraftArticle, updateDraftArticle } from '~/actions/draftArticle';
-import { createPublishArticle, updatePublishArticle } from '~/actions/publishArticle';
+import { updateDraftArticle } from '~/actions/draftArticle';
+import { updatePublishArticle } from '~/actions/publishArticle';
 import { Editor } from '~/components/uiParts/Editor';
 import { appUrls } from '~/constants/appUrls';
 import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
@@ -23,7 +23,7 @@ type InputState = z.infer<typeof inputSchema>;
 type Props = {
   subDomain: string;
   blogId: string;
-  existingArticle?: InputState & {
+  existingArticle: InputState & {
     id: string;
     status: Article['status'];
   };
@@ -31,8 +31,7 @@ type Props = {
 
 export const ArticleForm: FC<Props> = ({ subDomain, blogId, existingArticle }) => {
   const { enqueueSnackbar } = useSnackbar();
-  const { palette, breakpoints } = useTheme();
-  const router = useRouter();
+  const { palette } = useTheme();
 
   const { control, getValues, formState } = useForm<InputState>({
     defaultValues: existingArticle || {
@@ -43,54 +42,25 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existingArticle }) =
     mode: 'onChange',
   });
 
-  const onSubmit = async ({ status }: { status: Article['status'] }) => {
+  const handleChange = throttle(async () => {
     const { title, body } = getValues();
-    try {
-      if (existingArticle) {
-        switch (status) {
-          case 'publish': {
-            await updatePublishArticle({
-              id: existingArticle.id,
-              title,
-              body,
-            });
-            return;
-          }
-          case 'draft': {
-            await updateDraftArticle({
-              id: existingArticle.id,
-              title,
-              body,
-            });
-            return;
-          }
-          default:
-            break;
-        }
-        enqueueSnackbar({ message: '記事を更新しました', variant: 'success' });
-        router.push(urlJoin(generateSubDomainUrl(subDomain), existingArticle.id));
-        return;
-      }
 
-      switch (status) {
+    try {
+      switch (existingArticle.status) {
         case 'publish': {
-          const { createdArticle } = await createPublishArticle({
+          await updatePublishArticle({
+            id: existingArticle.id,
             title,
             body,
-            blogId,
           });
-          enqueueSnackbar({ message: '記事を公開しました', variant: 'success' });
-          router.push(appUrls.dashboard.blogs.articles.edit(blogId, createdArticle.id));
           return;
         }
         case 'draft': {
-          const { createdDraftArticle } = await createDraftArticle({
+          await updateDraftArticle({
+            id: existingArticle.id,
             title,
             body,
-            blogId,
           });
-          enqueueSnackbar({ message: '記事を下書きで作成しました', variant: 'success' });
-          router.push(appUrls.dashboard.blogs.articles.edit(blogId, createdDraftArticle.id));
           return;
         }
         default:
@@ -99,7 +69,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existingArticle }) =
     } catch (error) {
       enqueueSnackbar({ message: (error as Error).message, variant: 'error' });
     }
-  };
+  }, 2000);
 
   return (
     <Stack
@@ -118,6 +88,10 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existingArticle }) =
           render={({ field, fieldState }) => (
             <TextField
               {...field}
+              onChange={e => {
+                field.onChange(e?.target.value);
+                handleChange();
+              }}
               fullWidth
               placeholder='タイトルを入力してください'
               label='タイトル'
@@ -137,7 +111,14 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existingArticle }) =
           name='body'
           control={control}
           render={({ field }) => (
-            <Editor onChange={field.onChange} placeholder='記事の内容を入力する' body={field.value} />
+            <Editor
+              onChange={body => {
+                field.onChange(body);
+                handleChange();
+              }}
+              placeholder='記事の内容を入力する'
+              body={field.value}
+            />
           )}
         />
       </Stack>
@@ -158,16 +139,14 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existingArticle }) =
           }}
         >
           <Typography variant='body1'>記事設定</Typography>
-          {existingArticle && (
-            <Link
-              underline='hover'
-              color='inherit'
-              target='_blank'
-              href={urlJoin(generateSubDomainUrl(subDomain), appUrls.blogs.article(existingArticle.id))}
-            >
-              <Typography variant='body2'>実際の画面に飛ぶ</Typography>
-            </Link>
-          )}
+          <Link
+            underline='hover'
+            color='inherit'
+            target='_blank'
+            href={urlJoin(generateSubDomainUrl(subDomain), appUrls.blogs.article(existingArticle.id))}
+          >
+            <Typography variant='body2'>実際の画面に飛ぶ</Typography>
+          </Link>
           <Stack gap='16px'>
             <LoadingButton
               type='submit'
@@ -175,27 +154,11 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existingArticle }) =
               variant='contained'
               endIcon={<NoteAdd />}
               color='primary'
-              onClick={() => onSubmit({ status: 'publish' })}
               disabled={formState.isLoading || formState.isSubmitting || !formState.isValid}
               loading={formState.isSubmitting}
             >
-              {existingArticle ? (existingArticle?.status !== 'publish' ? '公開' : '更新') : '公開'}
+              {existingArticle?.status !== 'publish' ? '公開' : '更新'}
             </LoadingButton>
-            {/* TODO: 有効にする */}
-            {/* {existingArticle?.status !== 'publish' && (
-              <LoadingButton
-                type='submit'
-                fullWidth
-                variant='outlined'
-                endIcon={<Save />}
-                color='success'
-                onClick={() => onSubmit({ status: 'draft' })}
-                disabled={formState.isLoading || formState.isSubmitting || !formState.isValid}
-                loading={formState.isSubmitting}
-              >
-                {existingArticle ? '更新' : '下書き保存'}
-              </LoadingButton>
-            )} */}
           </Stack>
         </Paper>
       </Box>
