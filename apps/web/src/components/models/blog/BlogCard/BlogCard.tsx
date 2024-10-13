@@ -14,7 +14,7 @@ export const BlogCard: FC<Props> = ({ blog }) => {
     <Card>
       <CardContent>
         <Link
-          href={appUrls.dashboard.blogs.articles(blog.id)}
+          href={appUrls.dashboard.blogs.articles.list(blog.id)}
           underline='hover'
           color='inherit'
           sx={{ textDecoration: 'none' }}

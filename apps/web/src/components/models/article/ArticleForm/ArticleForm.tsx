@@ -23,19 +23,19 @@ type InputState = z.infer<typeof inputSchema>;
 type Props = {
   subDomain: string;
   blogId: string;
-  existedArticle?: InputState & {
+  existingArticle?: InputState & {
     id: string;
     status: Article['status'];
   };
 };
 
-export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) => {
+export const ArticleForm: FC<Props> = ({ subDomain, blogId, existingArticle }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { palette, breakpoints } = useTheme();
   const router = useRouter();
 
   const { control, getValues, formState } = useForm<InputState>({
-    defaultValues: existedArticle || {
+    defaultValues: existingArticle || {
       title: '',
       body: '',
     },
@@ -46,11 +46,11 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
   const onSubmit = async ({ status }: { status: Article['status'] }) => {
     const { title, body } = getValues();
     try {
-      if (existedArticle) {
+      if (existingArticle) {
         switch (status) {
           case 'publish': {
             await updatePublishArticle({
-              id: existedArticle.id,
+              id: existingArticle.id,
               title,
               body,
             });
@@ -58,7 +58,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
           }
           case 'draft': {
             await updateDraftArticle({
-              id: existedArticle.id,
+              id: existingArticle.id,
               title,
               body,
             });
@@ -68,7 +68,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
             break;
         }
         enqueueSnackbar({ message: '記事を更新しました', variant: 'success' });
-        router.push(urlJoin(generateSubDomainUrl(subDomain), existedArticle.id));
+        router.push(urlJoin(generateSubDomainUrl(subDomain), existingArticle.id));
         return;
       }
 
@@ -80,7 +80,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
             blogId,
           });
           enqueueSnackbar({ message: '記事を公開しました', variant: 'success' });
-          router.push(urlJoin(generateSubDomainUrl(subDomain), createdArticle.id));
+          router.push(appUrls.dashboard.blogs.articles.edit(blogId, createdArticle.id));
           return;
         }
         case 'draft': {
@@ -90,7 +90,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
             blogId,
           });
           enqueueSnackbar({ message: '記事を下書きで作成しました', variant: 'success' });
-          router.push(urlJoin(generateSubDomainUrl(subDomain), createdDraftArticle.id));
+          router.push(appUrls.dashboard.blogs.articles.edit(blogId, createdDraftArticle.id));
           return;
         }
         default:
@@ -158,12 +158,12 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
           }}
         >
           <Typography variant='body1'>記事設定</Typography>
-          {existedArticle && (
+          {existingArticle && (
             <Link
               underline='hover'
               color='inherit'
               target='_blank'
-              href={urlJoin(generateSubDomainUrl(subDomain), appUrls.blogs.article(existedArticle.id))}
+              href={urlJoin(generateSubDomainUrl(subDomain), appUrls.blogs.article(existingArticle.id))}
             >
               <Typography variant='body2'>実際の画面に飛ぶ</Typography>
             </Link>
@@ -179,10 +179,10 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
               disabled={formState.isLoading || formState.isSubmitting || !formState.isValid}
               loading={formState.isSubmitting}
             >
-              {existedArticle ? (existedArticle?.status !== 'publish' ? '公開' : '更新') : '公開'}
+              {existingArticle ? (existingArticle?.status !== 'publish' ? '公開' : '更新') : '公開'}
             </LoadingButton>
             {/* TODO: 有効にする */}
-            {/* {existedArticle?.status !== 'publish' && (
+            {/* {existingArticle?.status !== 'publish' && (
               <LoadingButton
                 type='submit'
                 fullWidth
@@ -193,7 +193,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existedArticle }) =>
                 disabled={formState.isLoading || formState.isSubmitting || !formState.isValid}
                 loading={formState.isSubmitting}
               >
-                {existedArticle ? '更新' : '下書き保存'}
+                {existingArticle ? '更新' : '下書き保存'}
               </LoadingButton>
             )} */}
           </Stack>

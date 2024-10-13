@@ -1,14 +1,12 @@
 import { Stack } from '@mui/material';
 import { notFound } from 'next/navigation';
 import { getArticle } from '~/actions/article';
-import { getBlogsBySubDomain } from '~/actions/blog';
+import { getBlog } from '~/actions/blog';
 import { ArticleForm } from '~/components/models/article/ArticleForm';
 
-export default async function Page({ params }: { params: { subDomain: string; articleId: string } }) {
-  const [blog, article] = await Promise.all([
-    getBlogsBySubDomain({ subDomain: params.subDomain }),
-    getArticle({ id: params.articleId }),
-  ]);
+export default async function Page({ params }: { params: { blogId: string; articleId: string } }) {
+  const [blog, article] = await Promise.all([getBlog({ id: params.blogId }), getArticle({ id: params.articleId })]);
+  console.log(blog, article);
 
   if (!blog || !article) {
     return notFound();
