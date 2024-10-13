@@ -3,23 +3,19 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Public, PublicOff } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
-import { Box, Link, Paper, Stack, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Paper, Stack, TextField, Typography, useTheme } from '@mui/material';
 import { type Article, ArticleSchema } from '@repo/types';
 import debounce from 'lodash/debounce';
 import { useSnackbar } from 'notistack';
 import type { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import urlJoin from 'url-join';
 import type { z } from 'zod';
-
 import { convertStatus } from '~/actions/article';
 import { updateDraftArticle } from '~/actions/draftArticle';
 import { updatePublishArticle } from '~/actions/publishArticle';
 import { Editor } from '~/components/uiParts/Editor';
-import { appUrls } from '~/constants/appUrls';
 import { mutateArticle, useArticle } from '~/hooks/article/useArticle/useArticle';
-
-import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
+import { AccessArticlePageIcon } from '../AccessArticlePageIcon';
 
 const inputSchema = ArticleSchema;
 type InputState = z.infer<typeof inputSchema>;
@@ -184,16 +180,12 @@ export const ArticleFormCore: FC<Props> = ({ subDomain, existingArticle }) => {
             top: 24,
           }}
         >
-          <Typography variant='body1'>記事設定</Typography>
-          <Link
-            underline='hover'
-            color='inherit'
-            target='_blank'
-            rel='noopener noreferrer'
-            href={urlJoin(generateSubDomainUrl(subDomain), appUrls.blogs.article(existingArticle.id))}
-          >
-            <Typography variant='body2'>実際の画面に飛ぶ</Typography>
-          </Link>
+          <Stack direction='row' alignItems='center' gap={2}>
+            <Typography variant='body1' sx={{ fontWeight: 700 }}>
+              記事設定
+            </Typography>
+            <AccessArticlePageIcon subDomain={subDomain} articleId={existingArticle.id} />
+          </Stack>
           <Stack gap='16px'>
             <LoadingButton
               type='submit'
