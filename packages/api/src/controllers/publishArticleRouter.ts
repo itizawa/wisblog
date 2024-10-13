@@ -18,7 +18,7 @@ export const publishArticleRouter = router({
 
     return { article };
   }),
-  list: publicProcedure.input(PublishArticleSchema.pick({ blogId: true })).mutation(async ({ ctx, input }) => {
+  list: publicProcedure.input(PublishArticleSchema.pick({ blogId: true })).mutation(async ({ ctx: _ctx, input }) => {
     const articles = await prismaClient.publishArticle.findMany({
       where: {
         blogId: input.blogId,
