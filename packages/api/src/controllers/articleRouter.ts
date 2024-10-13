@@ -1,6 +1,6 @@
 import type { Article } from '@prisma/client';
 import { PrismaClientSingleton } from '../libs/PrismaClientSingleton';
-import { protectedProcedure, router } from '../trpc';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 import { ResourceNotFound, StatusSchema } from '@repo/types';
 import z from 'zod';
@@ -8,14 +8,24 @@ import z from 'zod';
 const prismaClient = PrismaClientSingleton.instance;
 
 export const articleRouter = router({
-  get: protectedProcedure
+  get: publicProcedure
     .input(z.object({ id: z.string() }))
-    .mutation(async ({ input }): Promise<{ article: Article | null }> => {
+    .mutation(async ({ ctx, input }): Promise<{ article: Article | null }> => {
+      const requestedUserId = ctx.user?.id;
       const article = await prismaClient.article.findFirst({
         where: {
           id: input.id,
         },
       });
+
+      if (!article) {
+        return { article: null };
+      }
+
+      // statusがdraftの場合は現在アクセスしているユーザーのみが取得できる
+      if (article.status === 'draft' && article.authorId !== requestedUserId) {
+        return { article: null };
+      }
 
       return { article };
     }),

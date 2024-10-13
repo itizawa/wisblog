@@ -3,8 +3,10 @@ import { getCurrentUser } from '~/actions/user';
 import { Navbar } from '~/components/layout/Navbar';
 import { SnackbarProvider } from '~/context/SnackbarProvider';
 import { ThemeProvider } from '~/context/ThemeProvider';
+import { generateWisblogMetadata } from '~/libs/generateWisblogMetadata';
 
 export const dynamic = 'force-dynamic';
+export const metadata = generateWisblogMetadata({ title: 'Wisblog' });
 
 export default async function RootLayout({
   children,

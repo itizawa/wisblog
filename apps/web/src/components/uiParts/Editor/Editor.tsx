@@ -46,7 +46,6 @@ export const Editor: FC<Props> = ({ body, placeholder, onChange }) => {
   const editor = useEditor({
     extensions,
     content: body,
-    autofocus: 'end',
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },

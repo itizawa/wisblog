@@ -1,7 +1,10 @@
 import { Box, Stack, Typography } from '@mui/material';
 import { getCurrentUser } from '~/actions/user';
 import { BlogCard } from '~/components/models/blog/BlogCard';
+import { generateWisblogMetadata } from '~/libs/generateWisblogMetadata';
 import { getBlogsByOwnerId } from '../../../actions/blog';
+
+export const metadata = generateWisblogMetadata({ title: 'ブログ一覧' });
 
 export default async function Page() {
   const { currentUser } = await getCurrentUser();

@@ -17,7 +17,7 @@ export const ArticleBreadcrumbs: FC<Props> = ({ blogSubDomain, blogName, article
       <Link underline='hover' color='inherit' href={generateSubDomainUrl(blogSubDomain)}>
         {blogName}
       </Link>
-      <Typography sx={{ color: 'text.primary' }}>{articleTitle}</Typography>
+      <Typography sx={{ color: 'text.primary' }}>{articleTitle === '' ? '無題' : articleTitle}</Typography>
     </Breadcrumbs>
   );
 };
