@@ -10,6 +10,9 @@ import { ArticleSummaryPaperForAdmin } from '~/components/models/article/Article
 import { CreateNewArticleButton } from '~/components/models/article/CreateNewArticleButton';
 import { LoadingBox } from '~/components/uiParts/LoadingBox';
 import { WisblogTabs } from '~/components/uiParts/WisblogTabs';
+import { generateWisblogMetadata } from '~/libs/generateWisblogMetadata';
+
+export const metadata = generateWisblogMetadata({ title: '記事一覧' });
 
 export default async function Page({ params }: { params: { blogId: string } }) {
   const { currentUser } = await getCurrentUser();
@@ -21,7 +24,7 @@ export default async function Page({ params }: { params: { blogId: string } }) {
 
   return (
     <Stack maxWidth={600} mx='auto' py={4} gap={3} px={2}>
-      <Stack direction='row' justifyContent='space-between'>
+      <Stack direction='row' justifyContent='space-between' columnGap={2}>
         <Typography variant='h5'>{blog.name} の記事一覧</Typography>
         <CreateNewArticleButton blogId={blog.id} />
       </Stack>
