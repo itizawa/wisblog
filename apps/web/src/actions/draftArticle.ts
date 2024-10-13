@@ -23,7 +23,6 @@ export const createDraftArticleForNew = async ({
 }: {
   blogId: string;
 }) => {
-  await new Promise(resolve => setTimeout(resolve, 5000));
   const result = await trpcClient.draftArticle.create.mutate({
     title: '',
     body: '',
