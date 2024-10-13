@@ -12,6 +12,7 @@ import type { FC } from 'react';
 import urlJoin from 'url-join';
 import { WrapperWithMenu } from '~/components/uiParts/WrapperWithMenu';
 import { appUrls } from '~/constants/appUrls';
+import { generateMainUrl } from '~/utils/generateMainUrl';
 import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
 
 type Props = {
@@ -37,7 +38,8 @@ export const ArticlePaper: FC<Props> = ({ currentUser, blog, article }) => {
               {
                 key: 'edit',
                 text: '編集',
-                onClick: () => router.push(appUrls.dashboard.blogs.articles.edit(blog.id, article.id)),
+                onClick: () =>
+                  router.push(urlJoin(generateMainUrl(), appUrls.dashboard.blogs.articles.edit(blog.id, article.id))),
               },
             ]}
           >
