@@ -20,7 +20,14 @@ export const WisblogTabs: FC<Props> = ({ defaultValue, tabs }) => {
 
   return (
     <TabContext value={value}>
-      <TabList onChange={(_e, value) => setValue(value)} textColor='secondary' indicatorColor='secondary'>
+      <TabList
+        onChange={(_e, value) => setValue(value)}
+        sx={{
+          '.MuiTypography-root': {
+            color: theme => theme.palette.text.primary,
+          },
+        }}
+      >
         {tabs.map(tab => (
           <Tab
             key={tab.label}
