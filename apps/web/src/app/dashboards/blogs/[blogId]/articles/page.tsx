@@ -23,7 +23,7 @@ export default async function Page({ params }: { params: { blogId: string } }) {
   return (
     <Stack maxWidth={600} mx='auto' py={4} gap={3} px={2}>
       <Stack direction='row' justifyContent='space-between'>
-        <Typography variant='h5'>{blog.name} の管理画面</Typography>
+        <Typography variant='h5'>{blog.name} の記事一覧</Typography>
         <Button href={appUrls.dashboard.blogs.articles.new(blog.id)} variant='contained' startIcon={<NoteAdd />}>
           新規作成
         </Button>
