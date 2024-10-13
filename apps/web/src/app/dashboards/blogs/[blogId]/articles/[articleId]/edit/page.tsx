@@ -6,7 +6,6 @@ import { ArticleForm } from '~/components/models/article/ArticleForm';
 
 export default async function Page({ params }: { params: { blogId: string; articleId: string } }) {
   const [blog, article] = await Promise.all([getBlog({ id: params.blogId }), getArticle({ id: params.articleId })]);
-  console.log(blog, article);
 
   if (!blog || !article) {
     return notFound();
