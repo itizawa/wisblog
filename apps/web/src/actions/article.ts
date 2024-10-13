@@ -27,3 +27,16 @@ export const getArticle = async ({
 
   return article ? transferToObject(article) : null;
 };
+
+export const convertStatus = async ({
+  id,
+  toStatus,
+}: {
+  id: string;
+  toStatus: 'publish' | 'draft';
+}) => {
+  return await trpcClient.article.convertStatus.mutate({
+    id,
+    toStatus,
+  });
+};

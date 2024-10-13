@@ -1,5 +1,4 @@
-import { NoteAdd } from '@mui/icons-material';
-import { Button, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import type { Blog } from '@repo/types';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
@@ -8,9 +7,9 @@ import { getDraftArticles } from '~/actions/draftArticle';
 import { getPublishArticles } from '~/actions/publishArticle';
 import { getCurrentUser } from '~/actions/user';
 import { ArticleSummaryPaperForAdmin } from '~/components/models/article/ArticleSummaryPaperForAdmin';
+import { CreateNewArticleButton } from '~/components/models/article/CreateNewArticleButton';
 import { LoadingBox } from '~/components/uiParts/LoadingBox';
 import { WisblogTabs } from '~/components/uiParts/WisblogTabs';
-import { appUrls } from '~/constants/appUrls';
 
 export default async function Page({ params }: { params: { blogId: string } }) {
   const { currentUser } = await getCurrentUser();
@@ -24,9 +23,7 @@ export default async function Page({ params }: { params: { blogId: string } }) {
     <Stack maxWidth={600} mx='auto' py={4} gap={3} px={2}>
       <Stack direction='row' justifyContent='space-between'>
         <Typography variant='h5'>{blog.name} の記事一覧</Typography>
-        <Button href={appUrls.dashboard.blogs.articles.new(blog.id)} variant='contained' startIcon={<NoteAdd />}>
-          新規作成
-        </Button>
+        <CreateNewArticleButton blogId={blog.id} />
       </Stack>
       <WisblogTabs
         defaultValue='PUBLIC'

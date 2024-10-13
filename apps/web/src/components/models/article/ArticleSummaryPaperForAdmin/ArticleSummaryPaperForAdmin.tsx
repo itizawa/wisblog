@@ -23,7 +23,7 @@ export const ArticleSummaryPaperForAdmin: FC<Props> = ({ blog, article }) => {
           color='inherit'
         >
           <Typography variant='h5' component='div'>
-            {article.title}
+            {article.title === '' ? '無題' : article.title}
           </Typography>
         </Link>
       </Box>

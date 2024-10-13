@@ -18,7 +18,7 @@ export const draftArticleRouter = router({
 
     return { draftArticle };
   }),
-  list: protectedProcedure.input(DraftArticleSchema.pick({ blogId: true })).mutation(async ({ ctx, input }) => {
+  list: protectedProcedure.input(DraftArticleSchema.pick({ blogId: true })).mutation(async ({ ctx: _ctx, input }) => {
     const draftArticles = await prismaClient.draftArticle.findMany({
       where: {
         blogId: input.blogId,

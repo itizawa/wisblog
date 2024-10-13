@@ -21,7 +21,6 @@ export default async function Page({ params }: { params: { blogId: string; artic
           status: article.status,
         }}
         subDomain={blog.subDomain}
-        blogId={blog.id}
       />
     </Stack>
   );

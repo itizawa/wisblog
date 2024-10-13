@@ -1,7 +1,5 @@
 export const generateMainUrl = () => {
-  const currentHost = window.location.hostname;
-
-  if (currentHost.includes('localhost')) {
+  if (process.env.NEXT_PUBLIC_IS_LOCAL === 'true') {
     return 'http://localhost:3000';
   }
   return 'https://wiscro.app';
