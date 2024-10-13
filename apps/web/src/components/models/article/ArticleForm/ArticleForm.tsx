@@ -23,14 +23,13 @@ type InputState = z.infer<typeof inputSchema>;
 
 type Props = {
   subDomain: string;
-  blogId: string;
   existingArticle: InputState & {
     id: string;
     status: Article['status'];
   };
 };
 
-export const ArticleForm: FC<Props> = ({ subDomain, blogId, existingArticle }) => {
+export const ArticleForm: FC<Props> = ({ subDomain, existingArticle }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { palette } = useTheme();
 
