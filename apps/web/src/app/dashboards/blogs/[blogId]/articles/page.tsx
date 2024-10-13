@@ -32,7 +32,7 @@ export default async function Page({ params }: { params: { blogId: string } }) {
         tabs={[
           {
             value: 'PUBLIC',
-            label: '公開中の記事',
+            label: '公開',
             children: (
               <Suspense fallback={<CircularProgress sx={{ mx: 'auto' }} />}>
                 <PublicArticleList blog={blog} />
@@ -41,7 +41,7 @@ export default async function Page({ params }: { params: { blogId: string } }) {
           },
           {
             value: 'DRAFT',
-            label: '下書き中の記事',
+            label: '下書き',
             children: (
               <Suspense fallback={<CircularProgress sx={{ mx: 'auto' }} />}>
                 <DraftArticleList blog={blog} />
