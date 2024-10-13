@@ -5,7 +5,7 @@ import { Public, PublicOff } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Box, Link, Paper, Stack, TextField, Typography, useTheme } from '@mui/material';
 import { type Article, ArticleSchema } from '@repo/types';
-import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import { useSnackbar } from 'notistack';
 import type { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -42,7 +42,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, existingArticle }) => {
     mode: 'onChange',
   });
 
-  const handleChange = throttle(async () => {
+  const handleChange = debounce(async () => {
     const { title, body } = getValues();
 
     try {
