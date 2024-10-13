@@ -1,5 +1,5 @@
 import { NoteAdd } from '@mui/icons-material';
-import { Button, CircularProgress, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import type { Blog } from '@repo/types';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
@@ -8,6 +8,7 @@ import { getDraftArticles } from '~/actions/draftArticle';
 import { getPublishArticles } from '~/actions/publishArticle';
 import { getCurrentUser } from '~/actions/user';
 import { ArticleSummaryPaperForAdmin } from '~/components/models/article/ArticleSummaryPaperForAdmin';
+import { LoadingBox } from '~/components/uiParts/LoadingBox';
 import { WisblogTabs } from '~/components/uiParts/WisblogTabs';
 import { appUrls } from '~/constants/appUrls';
 
@@ -34,7 +35,7 @@ export default async function Page({ params }: { params: { blogId: string } }) {
             value: 'PUBLIC',
             label: '公開',
             children: (
-              <Suspense fallback={<CircularProgress sx={{ mx: 'auto' }} />}>
+              <Suspense fallback={<LoadingBox />}>
                 <PublicArticleList blog={blog} />
               </Suspense>
             ),
@@ -43,7 +44,7 @@ export default async function Page({ params }: { params: { blogId: string } }) {
             value: 'DRAFT',
             label: '下書き',
             children: (
-              <Suspense fallback={<CircularProgress sx={{ mx: 'auto' }} />}>
+              <Suspense fallback={<LoadingBox />}>
                 <DraftArticleList blog={blog} />
               </Suspense>
             ),
