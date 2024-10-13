@@ -4,7 +4,7 @@ import './styles.scss';
 import { MoreVert } from '@mui/icons-material';
 import { Box, IconButton, Link, Paper, Typography, useTheme } from '@mui/material';
 import { can } from '@repo/access-control';
-import type { Blog, PublishArticle, User } from '@repo/types';
+import type { Article, Blog, User } from '@repo/types';
 import { format } from 'date-fns';
 import parse from 'html-react-parser';
 import { useRouter } from 'next/navigation';
@@ -18,7 +18,7 @@ import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
 type Props = {
   currentUser: User | null;
   blog: Blog;
-  article: PublishArticle;
+  article: Article;
 };
 
 export const ArticlePaper: FC<Props> = ({ currentUser, blog, article }) => {
@@ -29,7 +29,7 @@ export const ArticlePaper: FC<Props> = ({ currentUser, blog, article }) => {
       <Box display='flex' alignItems='center' justifyContent='space-between'>
         <Link href={urlJoin(generateSubDomainUrl(blog.subDomain), article.id)} underline='hover' color='inherit'>
           <Typography variant='h5' component='div'>
-            {article.title}
+            {article.title === '' ? '無題' : article.title}
           </Typography>
         </Link>
         {can({ type: 'publish_article', action: 'update', user: currentUser, blog, publishArticle: article }) && (
