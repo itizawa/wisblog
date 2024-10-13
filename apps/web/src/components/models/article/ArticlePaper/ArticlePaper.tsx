@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
 import urlJoin from 'url-join';
 import { WrapperWithMenu } from '~/components/uiParts/WrapperWithMenu';
+import { appUrls } from '~/constants/appUrls';
 import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
 
 type Props = {
@@ -36,7 +37,7 @@ export const ArticlePaper: FC<Props> = ({ currentUser, blog, article }) => {
               {
                 key: 'edit',
                 text: '編集',
-                onClick: () => router.push(urlJoin(generateSubDomainUrl(blog.subDomain), article.id, 'edit')),
+                onClick: () => router.push(appUrls.dashboard.blogs.articles.edit(blog.id, article.id)),
               },
             ]}
           >
