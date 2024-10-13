@@ -11,14 +11,17 @@ import type { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import urlJoin from 'url-join';
 import type { z } from 'zod';
+
 import { convertStatus } from '~/actions/article';
 import { updateDraftArticle } from '~/actions/draftArticle';
 import { updatePublishArticle } from '~/actions/publishArticle';
 import { Editor } from '~/components/uiParts/Editor';
 import { appUrls } from '~/constants/appUrls';
+import { mutateArticle, useArticle } from '~/hooks/article/useArticle/useArticle';
+
 import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
 
-const inputSchema = ArticleSchema.pick({ title: true, body: true });
+const inputSchema = ArticleSchema;
 type InputState = z.infer<typeof inputSchema>;
 
 type Props = {
@@ -29,7 +32,19 @@ type Props = {
   };
 };
 
-export const ArticleForm: FC<Props> = ({ subDomain, existingArticle }) => {
+export const ArticleForm: FC<Props> = ({ subDomain, existingArticle: _existingArticle }) => {
+  const { data: existingArticle, isLoading } = useArticle({
+    id: _existingArticle.id,
+    fallbackData: _existingArticle,
+  });
+
+  if (isLoading) return null;
+  if (!existingArticle) return null;
+
+  return <ArticleFormCore subDomain={subDomain} existingArticle={existingArticle} />;
+};
+
+export const ArticleFormCore: FC<Props> = ({ subDomain, existingArticle }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { palette } = useTheme();
 
@@ -81,6 +96,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, existingArticle }) => {
             toStatus: 'draft',
           });
           enqueueSnackbar({ message: '下書きに更新しました', variant: 'success' });
+          mutateArticle({ id: existingArticle.id });
           return;
         }
         case 'draft': {
@@ -89,6 +105,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, existingArticle }) => {
             toStatus: 'publish',
           });
           enqueueSnackbar({ message: '公開しました', variant: 'success' });
+          mutateArticle({ id: existingArticle.id });
           return;
         }
         default: {

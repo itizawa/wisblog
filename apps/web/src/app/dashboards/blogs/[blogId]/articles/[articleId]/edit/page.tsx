@@ -13,15 +13,7 @@ export default async function Page({ params }: { params: { blogId: string; artic
 
   return (
     <Stack maxWidth={1260} mx='auto' py={4} px={2} gap={2}>
-      <ArticleForm
-        existingArticle={{
-          id: article.id,
-          title: article.title,
-          body: article.body,
-          status: article.status,
-        }}
-        subDomain={blog.subDomain}
-      />
+      <ArticleForm existingArticle={article} subDomain={blog.subDomain} />
     </Stack>
   );
 }
