@@ -2,7 +2,7 @@ import type { Article } from '@prisma/client';
 import { PrismaClientSingleton } from '../libs/PrismaClientSingleton';
 import { protectedProcedure, router } from '../trpc';
 
-import { StatusSchema } from '@repo/types';
+import { ResourceNotFound, StatusSchema } from '@repo/types';
 import z from 'zod';
 
 const prismaClient = PrismaClientSingleton.instance;
@@ -32,11 +32,11 @@ export const articleRouter = router({
       });
 
       if (!article) {
-        return null;
+        throw new ResourceNotFound('リソースが存在しません');
       }
 
       if (toStatus === 'publish') {
-        const newArticle = await prismaClient.$transaction([
+        await prismaClient.$transaction([
           prismaClient.draftArticle.delete({
             where: {
               id,
@@ -55,10 +55,10 @@ export const articleRouter = router({
           }),
         ]);
 
-        return newArticle;
+        return;
       }
 
-      const newArticle = await prismaClient.$transaction([
+      await prismaClient.$transaction([
         prismaClient.publishArticle.delete({
           where: {
             id,
@@ -77,6 +77,6 @@ export const articleRouter = router({
         }),
       ]);
 
-      return newArticle;
+      return;
     }),
 });

@@ -5,7 +5,7 @@ import { Public, PublicOff } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Box, Link, Paper, Stack, TextField, Typography, useTheme } from '@mui/material';
 import { type Article, ArticleSchema } from '@repo/types';
-import { throttle } from 'lodash';
+import throttle from 'lodash/throttle';
 import { useSnackbar } from 'notistack';
 import type { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -63,8 +63,9 @@ export const ArticleForm: FC<Props> = ({ subDomain, existingArticle }) => {
           });
           return;
         }
-        default:
-          break;
+        default: {
+          const _exhaustiveCheck: never = existingArticle.status;
+        }
       }
     } catch (error) {
       enqueueSnackbar({ message: (error as Error).message, variant: 'error' });
@@ -79,7 +80,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, existingArticle }) => {
             id: existingArticle.id,
             toStatus: 'draft',
           });
-          enqueueSnackbar({ message: '公開しました', variant: 'success' });
+          enqueueSnackbar({ message: '下書きに更新しました', variant: 'success' });
           return;
         }
         case 'draft': {
@@ -87,11 +88,12 @@ export const ArticleForm: FC<Props> = ({ subDomain, existingArticle }) => {
             id: existingArticle.id,
             toStatus: 'publish',
           });
-          enqueueSnackbar({ message: '下書きに更新しました', variant: 'success' });
+          enqueueSnackbar({ message: '公開しました', variant: 'success' });
           return;
         }
-        default:
-          break;
+        default: {
+          const _exhaustiveCheck: never = existingArticle.status;
+        }
       }
     } catch (error) {
       enqueueSnackbar({ message: (error as Error).message, variant: 'error' });
@@ -116,7 +118,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, existingArticle }) => {
             <TextField
               {...field}
               onChange={e => {
-                field.onChange(e?.target.value);
+                field.onChange(e.target.value);
                 handleChange();
               }}
               fullWidth
@@ -170,6 +172,7 @@ export const ArticleForm: FC<Props> = ({ subDomain, existingArticle }) => {
             underline='hover'
             color='inherit'
             target='_blank'
+            rel='noopener noreferrer'
             href={urlJoin(generateSubDomainUrl(subDomain), appUrls.blogs.article(existingArticle.id))}
           >
             <Typography variant='body2'>実際の画面に飛ぶ</Typography>
