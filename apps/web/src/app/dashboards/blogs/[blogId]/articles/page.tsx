@@ -24,8 +24,9 @@ export default async function Page({ params }: { params: { blogId: string } }) {
 
   return (
     <Stack maxWidth={600} mx='auto' py={4} gap={3} px={2}>
+      <Typography variant='h4'>{blog.name}</Typography>
       <Stack direction='row' justifyContent='space-between' columnGap={2}>
-        <Typography variant='h5'>{blog.name} の記事一覧</Typography>
+        <Typography variant='h5'>記事一覧</Typography>
         <CreateNewArticleButton blogId={blog.id} />
       </Stack>
       <WisblogTabs
