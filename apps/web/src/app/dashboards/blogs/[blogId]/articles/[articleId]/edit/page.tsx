@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: { blogId: string; artic
   return (
     <Stack maxWidth={1260} mx='auto' py={4} px={2} gap={2}>
       <ArticleForm
-        existedArticle={{
+        existingArticle={{
           id: article.id,
           title: article.title,
           body: article.body,
