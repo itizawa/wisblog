@@ -7,6 +7,7 @@ import type { FC } from 'react';
 import urlJoin from 'url-join';
 import { appUrls } from '~/constants/appUrls';
 import { generateMainUrl } from '~/utils/generateMainUrl';
+import { AccessArticlePageIcon } from '../AccessArticlePageIcon';
 
 type Props = {
   blog: Blog;
@@ -26,6 +27,7 @@ export const ArticleSummaryPaperForAdmin: FC<Props> = ({ blog, article }) => {
             {article.title === '' ? '無題' : article.title}
           </Typography>
         </Link>
+        <AccessArticlePageIcon subDomain={blog.subDomain} articleId={article.id} />
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: 3 }}>
         <Box display='flex' columnGap={2} sx={{ pb: 1 }}>
