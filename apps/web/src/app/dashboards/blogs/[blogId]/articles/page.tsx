@@ -4,9 +4,11 @@ import type { Blog } from '@repo/types';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { getBlog } from '~/actions/blog';
+import { getDraftArticles } from '~/actions/draftArticle';
 import { getPublishArticles } from '~/actions/publishArticle';
 import { getCurrentUser } from '~/actions/user';
 import { ArticleSummaryPaperForAdmin } from '~/components/models/article/ArticleSummaryPaperForAdmin';
+import { WisblogTabs } from '~/components/uiParts/WisblogTabs';
 import { appUrls } from '~/constants/appUrls';
 
 export default async function Page({ params }: { params: { blogId: string } }) {
@@ -25,9 +27,29 @@ export default async function Page({ params }: { params: { blogId: string } }) {
           新規作成
         </Button>
       </Stack>
-      <Suspense fallback={<CircularProgress sx={{ mx: 'auto' }} />}>
-        <PublicArticleList blog={blog} />
-      </Suspense>
+      <WisblogTabs
+        defaultValue='PUBLIC'
+        tabs={[
+          {
+            value: 'PUBLIC',
+            label: '公開中の記事',
+            children: (
+              <Suspense fallback={<CircularProgress sx={{ mx: 'auto' }} />}>
+                <PublicArticleList blog={blog} />
+              </Suspense>
+            ),
+          },
+          {
+            value: 'DRAFT',
+            label: '下書き中の記事',
+            children: (
+              <Suspense fallback={<CircularProgress sx={{ mx: 'auto' }} />}>
+                <DraftArticleList blog={blog} />
+              </Suspense>
+            ),
+          },
+        ]}
+      />
     </Stack>
   );
 }
@@ -36,13 +58,22 @@ const PublicArticleList = async ({ blog }: { blog: Blog }) => {
   const articles = await getPublishArticles({ blogId: blog.id });
 
   return (
-    <Stack>
-      <Typography variant='h5'>公開中の記事</Typography>
-      <Stack gap={2} mt={3}>
-        {articles.map(article => (
-          <ArticleSummaryPaperForAdmin key={article.id} blog={blog} article={article} />
-        ))}
-      </Stack>
+    <Stack gap={2}>
+      {articles.map(article => (
+        <ArticleSummaryPaperForAdmin key={article.id} blog={blog} article={article} />
+      ))}
+    </Stack>
+  );
+};
+
+const DraftArticleList = async ({ blog }: { blog: Blog }) => {
+  const articles = await getDraftArticles({ blogId: blog.id });
+
+  return (
+    <Stack gap={2}>
+      {articles.map(article => (
+        <ArticleSummaryPaperForAdmin key={article.id} blog={blog} article={article} />
+      ))}
     </Stack>
   );
 };

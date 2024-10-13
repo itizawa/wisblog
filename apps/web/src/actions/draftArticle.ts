@@ -2,18 +2,18 @@
 
 import type { DraftArticle } from '@repo/types';
 import { trpcClient } from '~/libs/trpcClient/trpcClient';
+import { convertStringsToDates } from '~/utils/convertStringsToDates';
 
-const transferToObject = (
-  article: Omit<DraftArticle, 'createdAt' | 'updatedAt'> & {
-    createdAt: string;
-    updatedAt: string;
-  },
-) => {
-  return {
-    ...article,
-    createdAt: new Date(article.createdAt),
-    updatedAt: new Date(article.updatedAt),
-  };
+export const getDraftArticles = async ({
+  blogId,
+}: {
+  blogId: string;
+}) => {
+  const { draftArticles } = await trpcClient.draftArticle.list.mutate({
+    blogId,
+  });
+
+  return draftArticles.map<DraftArticle>(convertStringsToDates);
 };
 
 export const createDraftArticle = async ({
