@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { NoteAdd } from '@mui/icons-material';
+import { Public, PublicOff } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Box, Link, Paper, Stack, TextField, Typography, useTheme } from '@mui/material';
 import { type Article, ArticleSchema } from '@repo/types';
@@ -11,6 +11,7 @@ import type { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import urlJoin from 'url-join';
 import type { z } from 'zod';
+import { convertStatus } from '~/actions/article';
 import { updateDraftArticle } from '~/actions/draftArticle';
 import { updatePublishArticle } from '~/actions/publishArticle';
 import { Editor } from '~/components/uiParts/Editor';
@@ -70,6 +71,33 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existingArticle }) =
       enqueueSnackbar({ message: (error as Error).message, variant: 'error' });
     }
   }, 2000);
+
+  const handleChangeStatus = async () => {
+    try {
+      switch (existingArticle.status) {
+        case 'publish': {
+          await convertStatus({
+            id: existingArticle.id,
+            toStatus: 'draft',
+          });
+          enqueueSnackbar({ message: '公開しました', variant: 'success' });
+          return;
+        }
+        case 'draft': {
+          await convertStatus({
+            id: existingArticle.id,
+            toStatus: 'publish',
+          });
+          enqueueSnackbar({ message: '下書きに更新しました', variant: 'success' });
+          return;
+        }
+        default:
+          break;
+      }
+    } catch (error) {
+      enqueueSnackbar({ message: (error as Error).message, variant: 'error' });
+    }
+  };
 
   return (
     <Stack
@@ -152,12 +180,13 @@ export const ArticleForm: FC<Props> = ({ subDomain, blogId, existingArticle }) =
               type='submit'
               fullWidth
               variant='contained'
-              endIcon={<NoteAdd />}
-              color='primary'
+              endIcon={existingArticle.status === 'draft' ? <Public /> : <PublicOff />}
+              color={existingArticle.status === 'draft' ? 'primary' : 'gray'}
               disabled={formState.isLoading || formState.isSubmitting || !formState.isValid}
               loading={formState.isSubmitting}
+              onClick={handleChangeStatus}
             >
-              {existingArticle?.status !== 'publish' ? '公開' : '更新'}
+              {existingArticle?.status !== 'publish' ? '公開する' : '下書きに戻す'}
             </LoadingButton>
           </Stack>
         </Paper>
