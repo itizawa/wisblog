@@ -2,14 +2,10 @@ import { Stack, Typography } from '@mui/material';
 import { notFound } from 'next/navigation';
 import { getBlogsBySubDomain } from '~/actions/blog';
 import { getPublishArticles } from '~/actions/publishArticle';
-import { getCurrentUser } from '~/actions/user';
-import { ArticlePaper } from '~/components/models/article/ArticlePaper';
+import { ArticleSummaryPaper } from '~/components/models/article/ArticleSummaryPaper';
 
 export default async function Page({ params }: { params: { subDomain: string } }) {
-  const [blog, { currentUser }] = await Promise.all([
-    getBlogsBySubDomain({ subDomain: params.subDomain }),
-    getCurrentUser(),
-  ]);
+  const blog = await getBlogsBySubDomain({ subDomain: params.subDomain });
 
   if (!blog) {
     return notFound();
@@ -23,7 +19,7 @@ export default async function Page({ params }: { params: { subDomain: string } }
         {blog.name}
       </Typography>
       {articles.map(article => (
-        <ArticlePaper key={article.id} currentUser={currentUser} article={article} blog={blog} />
+        <ArticleSummaryPaper key={article.id} article={article} blog={blog} />
       ))}
     </Stack>
   );
