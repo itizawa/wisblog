@@ -5,8 +5,7 @@ import type { Blog, PublishArticle } from '@repo/types';
 import { format } from 'date-fns';
 import type { FC } from 'react';
 import urlJoin from 'url-join';
-import { appUrls } from '~/constants/appUrls';
-import { generateMainUrl } from '~/utils/generateMainUrl';
+import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
 
 type Props = {
   blog: Blog;
@@ -17,11 +16,7 @@ export const ArticleSummaryPaper: FC<Props> = ({ blog, article }) => {
   return (
     <Paper key={article.id} variant='outlined' sx={{ p: 2, display: 'flex', flexDirection: 'column', rowGap: 0.5 }}>
       <Box display='flex' alignItems='center' justifyContent='space-between'>
-        <Link
-          href={urlJoin(generateMainUrl(), appUrls.dashboard.blogs.articles.edit(blog.id, article.id))}
-          underline='hover'
-          color='inherit'
-        >
+        <Link href={urlJoin(generateSubDomainUrl(blog.subDomain), article.id)} underline='hover' color='inherit'>
           <Typography variant='h5' component='div'>
             {article.title === '' ? '無題' : article.title}
           </Typography>
