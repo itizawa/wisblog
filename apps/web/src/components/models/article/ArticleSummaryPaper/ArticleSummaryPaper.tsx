@@ -7,14 +7,13 @@ import type { FC } from 'react';
 import urlJoin from 'url-join';
 import { appUrls } from '~/constants/appUrls';
 import { generateMainUrl } from '~/utils/generateMainUrl';
-import { AccessArticlePageIcon } from '../AccessArticlePageIcon';
 
 type Props = {
   blog: Blog;
   article: PublishArticle;
 };
 
-export const ArticleSummaryPaperForAdmin: FC<Props> = ({ blog, article }) => {
+export const ArticleSummaryPaper: FC<Props> = ({ blog, article }) => {
   return (
     <Paper key={article.id} variant='outlined' sx={{ p: 2, display: 'flex', flexDirection: 'column', rowGap: 0.5 }}>
       <Box display='flex' alignItems='center' justifyContent='space-between'>
@@ -27,7 +26,6 @@ export const ArticleSummaryPaperForAdmin: FC<Props> = ({ blog, article }) => {
             {article.title === '' ? '無題' : article.title}
           </Typography>
         </Link>
-        <AccessArticlePageIcon subDomain={blog.subDomain} articleId={article.id} />
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: 3 }}>
         <Box display='flex' columnGap={2}>
