@@ -6,14 +6,16 @@ import type { User } from '@repo/types';
 import Link from 'next/link';
 import type { FC } from 'react';
 import urlJoin from 'url-join';
+import { LoadingBox } from '~/components/uiParts/LoadingBox';
 import { WrapperWithMenu } from '~/components/uiParts/WrapperWithMenu';
 import { generateMainUrl } from '~/utils/generateMainUrl';
 
 type Props = {
+  isLoading: boolean;
   currentUser: User | null;
 };
 
-export const Navbar: FC<Props> = ({ currentUser }) => {
+export const Navbar: FC<Props> = ({ currentUser, isLoading }) => {
   const { palette } = useTheme();
 
   return (
@@ -38,7 +40,9 @@ export const Navbar: FC<Props> = ({ currentUser }) => {
               Wisblog
             </Typography>
           </Link>
-          {currentUser ? (
+          {isLoading ? (
+            <LoadingBox />
+          ) : currentUser ? (
             <WrapperWithMenu
               menuItems={[
                 {
