@@ -30,7 +30,7 @@ export const ArticleSummaryPaperForAdmin: FC<Props> = ({ blog, article }) => {
         <AccessArticlePageIcon subDomain={blog.subDomain} articleId={article.id} />
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: 3 }}>
-        <Box display='flex' columnGap={2} sx={{ pb: 1 }}>
+        <Box display='flex' columnGap={2}>
           <Typography variant='caption' component='h6'>
             作成日：{format(article.createdAt, 'yyyy-MM-dd HH:mm')}
           </Typography>
