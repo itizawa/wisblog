@@ -14,6 +14,7 @@ import { convertStatus } from '~/actions/article';
 import { updateDraftArticle } from '~/actions/draftArticle';
 import { updatePublishArticle } from '~/actions/publishArticle';
 import { Editor } from '~/components/uiParts/Editor';
+import { LoadingBox } from '~/components/uiParts/LoadingBox';
 import { mutateArticle, useArticle } from '~/hooks/article/useArticle/useArticle';
 import { AccessArticlePageIcon } from '../AccessArticlePageIcon';
 
@@ -34,8 +35,8 @@ export const ArticleForm: FC<Props> = ({ subDomain, existingArticle: _existingAr
     fallbackData: _existingArticle,
   });
 
-  if (isLoading) return null;
-  if (!existingArticle) return null;
+  if (isLoading) return <LoadingBox />;
+  if (!existingArticle) return <LoadingBox />;
 
   return <ArticleFormCore subDomain={subDomain} existingArticle={existingArticle} />;
 };
