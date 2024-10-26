@@ -6,16 +6,15 @@ import type { FC } from 'react';
 import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
 
 type Props = {
-  blogName: string;
   blogSubDomain: string;
   articleTitle: string;
 };
 
-export const ArticleBreadcrumbs: FC<Props> = ({ blogSubDomain, blogName, articleTitle }) => {
+export const ArticleBreadcrumbs: FC<Props> = ({ blogSubDomain, articleTitle }) => {
   return (
     <Breadcrumbs>
       <Link underline='hover' color='inherit' href={generateSubDomainUrl(blogSubDomain)}>
-        {blogName}
+        記事一覧
       </Link>
       <Typography sx={{ color: 'text.primary' }}>{articleTitle === '' ? '無題' : articleTitle}</Typography>
     </Breadcrumbs>

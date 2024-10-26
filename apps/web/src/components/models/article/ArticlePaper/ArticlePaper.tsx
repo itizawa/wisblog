@@ -2,14 +2,15 @@
 
 import './styles.scss';
 import { MoreVert } from '@mui/icons-material';
-import { Box, IconButton, Link, Paper, Typography, useTheme } from '@mui/material';
+import { CalendarMonth } from '@mui/icons-material';
+import { Box, IconButton, Link, Typography } from '@mui/material';
 import { can } from '@repo/access-control';
 import type { Blog, DraftArticle, PublishArticle, User } from '@repo/types';
 import { format } from 'date-fns';
-import parse from 'html-react-parser';
 import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
 import urlJoin from 'url-join';
+import { WisblogTooltip } from '~/components/uiParts/WisblogTooltip';
 import { WrapperWithMenu } from '~/components/uiParts/WrapperWithMenu';
 import { appUrls } from '~/constants/appUrls';
 import { generateMainUrl } from '~/utils/generateMainUrl';
@@ -22,13 +23,33 @@ type Props = {
 };
 
 export const ArticlePaper: FC<Props> = ({ currentUser, blog, article }) => {
-  const { palette } = useTheme();
   const router = useRouter();
+
   return (
-    <Paper key={article.id} variant='outlined' sx={{ p: 2, display: 'flex', flexDirection: 'column', rowGap: 0.5 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        rowGap: 0.5,
+      }}
+    >
+      <WisblogTooltip title={`最終更新：${format(article.updatedAt, 'yyyy-MM-dd HH:mm')}`}>
+        <Box display='flex' sx={{ width: 'fit-content' }} alignItems='center'>
+          <CalendarMonth
+            sx={{
+              fontSize: '1rem',
+              marginRight: '0.5rem',
+              color: 'text.secondary',
+            }}
+          />
+          <Typography variant='body2' component='h6' color='textSecondary'>
+            {format(article.createdAt, 'yyyy-MM-dd HH:mm')}
+          </Typography>
+        </Box>
+      </WisblogTooltip>
       <Box display='flex' alignItems='center' justifyContent='space-between'>
         <Link href={urlJoin(generateSubDomainUrl(blog.subDomain), article.id)} underline='hover' color='inherit'>
-          <Typography variant='h5' component='div'>
+          <Typography variant='h5' sx={{ fontWeight: 'bold' }} component='div'>
             {article.title === '' ? '無題' : article.title}
           </Typography>
         </Link>
@@ -53,17 +74,6 @@ export const ArticlePaper: FC<Props> = ({ currentUser, blog, article }) => {
           </WrapperWithMenu>
         )}
       </Box>
-      <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: 3 }}>
-        <Box display='flex' columnGap={2} sx={{ pb: 1, borderBottom: `1px solid ${palette.grey[500]}` }}>
-          <Typography variant='caption' component='h6'>
-            作成日：{format(article.createdAt, 'yyyy-MM-dd HH:mm')}
-          </Typography>
-          <Typography variant='caption' component='h6'>
-            更新日：{format(article.updatedAt, 'yyyy-MM-dd HH:mm')}
-          </Typography>
-        </Box>
-        <div className='preview'>{parse(article.body)}</div>
-      </Box>
-    </Paper>
+    </Box>
   );
 };
