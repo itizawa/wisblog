@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { getArticle } from '~/actions/article';
 import { getBlogsBySubDomain } from '~/actions/blog';
 import { getCurrentUser } from '~/actions/user';
-import { ArticleBreadcrumbs } from '~/components/models/article/ArticleBreadcrumbs';
 import { ArticlePaper } from '~/components/models/article/ArticlePaper';
 
 export default async function Page({ params }: { params: { subDomain: string; articleId: string } }) {
@@ -19,7 +18,6 @@ export default async function Page({ params }: { params: { subDomain: string; ar
 
   return (
     <Stack maxWidth={900} mx='auto' py={4} px={2} gap={1}>
-      <ArticleBreadcrumbs blogSubDomain={blog.subDomain} articleTitle={article.title} />
       {article.status === 'draft' && <Alert severity='warning'>この記事は下書き状態です</Alert>}
       <ArticlePaper key={article.id} currentUser={currentUser} article={article} blog={blog} />
     </Stack>
