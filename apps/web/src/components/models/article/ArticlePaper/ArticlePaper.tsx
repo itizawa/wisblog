@@ -14,7 +14,7 @@ import { WisblogTooltip } from '~/components/uiParts/WisblogTooltip';
 import { WrapperWithMenu } from '~/components/uiParts/WrapperWithMenu';
 import { appUrls } from '~/constants/appUrls';
 import { generateMainUrl } from '~/utils/generateMainUrl';
-import { ArticleBackButton } from '../ArticleBackButton';
+import { ArticleBackLink } from '../ArticleBackLink';
 
 type Props = {
   currentUser: User | null;
@@ -30,11 +30,11 @@ export const ArticlePaper: FC<Props> = ({ currentUser, blog, article }) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        rowGap: 0.5,
+        rowGap: 2,
       }}
     >
       <Box display='flex' alignItems='center' justifyContent='space-between'>
-        <ArticleBackButton blogSubDomain={blog.subDomain} />
+        <ArticleBackLink blogSubDomain={blog.subDomain} />
         <WisblogTooltip title={`最終更新：${format(article.updatedAt, 'yyyy-MM-dd HH:mm')}`}>
           <Box display='flex' sx={{ width: 'fit-content' }} alignItems='center'>
             <CalendarMonth

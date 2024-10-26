@@ -1,0 +1,1 @@
+export { ArticleBackLink } from './ArticleBackLink';

@@ -17,7 +17,7 @@ export default async function Page({ params }: { params: { subDomain: string; ar
   }
 
   return (
-    <Stack maxWidth={900} mx='auto' py={4} px={2} gap={1}>
+    <Stack maxWidth={900} mx='auto' pt={2} pb={4} px={2} gap={1}>
       {article.status === 'draft' && <Alert severity='warning'>この記事は下書き状態です</Alert>}
       <ArticlePaper key={article.id} currentUser={currentUser} article={article} blog={blog} />
     </Stack>
