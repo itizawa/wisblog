@@ -23,7 +23,7 @@ export default async function Page({ params }: { params: { blogId: string } }) {
   if (!blog) return notFound();
 
   return (
-    <Stack maxWidth={900} mx='auto' py={4} gap={3} px={2}>
+    <Stack maxWidth={900} mx='auto' pt={2} pb={4} gap={3} px={2}>
       <Typography variant='h4'>{blog.name}</Typography>
       <Stack direction='row' justifyContent='space-between' columnGap={2}>
         <Typography variant='h5'>記事一覧</Typography>

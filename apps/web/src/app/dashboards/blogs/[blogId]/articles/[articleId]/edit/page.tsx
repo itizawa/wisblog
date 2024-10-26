@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: { blogId: string; artic
   }
 
   return (
-    <Stack maxWidth={1260} mx='auto' py={4} px={2} gap={2}>
+    <Stack maxWidth={1260} mx='auto' pt={2} pb={4} px={2} gap={2}>
       <ArticleForm existingArticle={article} subDomain={blog.subDomain} />
     </Stack>
   );

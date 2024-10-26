@@ -6,7 +6,7 @@ export default async function Page() {
   const { currentUser } = await getCurrentUser();
 
   return (
-    <Stack maxWidth={600} mx='auto' pt={4} gap={3} px={2}>
+    <Stack maxWidth={600} mx='auto' pt={2} pb={4} gap={3} px={2}>
       <Typography variant='h5'>Welcome to Wisblog !</Typography>
       {currentUser ? (
         <Link href={'/dashboards/blogs'} color='info' sx={{ textDecoration: 'none' }}>

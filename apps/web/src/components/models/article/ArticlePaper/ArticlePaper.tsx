@@ -7,6 +7,7 @@ import { Box, IconButton, Typography } from '@mui/material';
 import { can } from '@repo/access-control';
 import type { Blog, DraftArticle, PublishArticle, User } from '@repo/types';
 import { format } from 'date-fns';
+import parse from 'html-react-parser';
 import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
 import urlJoin from 'url-join';
@@ -30,7 +31,7 @@ export const ArticlePaper: FC<Props> = ({ currentUser, blog, article }) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        rowGap: 2,
+        rowGap: 1,
       }}
     >
       <Box display='flex' alignItems='center' justifyContent='space-between'>
@@ -75,6 +76,7 @@ export const ArticlePaper: FC<Props> = ({ currentUser, blog, article }) => {
           </WrapperWithMenu>
         )}
       </Box>
+      <div className='preview'>{parse(article.body)}</div>
     </Box>
   );
 };
