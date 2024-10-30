@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { getArticle } from '~/actions/article';
 import { getBlog } from '~/actions/blog';
 import { ArticleForm } from '~/components/models/article/ArticleForm';
-import { DashBoardArticleBackLink } from '~/components/models/article/DashBoardArticleBackLink/DashBoardArticleBackLink';
+import { DashBoardArticleBackLink } from '~/components/models/article/DashBoardArticleBackLink';
 import { generateWisblogMetadata } from '~/libs/generateWisblogMetadata';
 
 export const metadata = generateWisblogMetadata({ title: '記事の編集' });

@@ -1,1 +1,1 @@
-export { ArticleBackLink } from './ArticleBackLink';
+export { DashBoardArticleBackLink } from './DashBoardArticleBackLink';
