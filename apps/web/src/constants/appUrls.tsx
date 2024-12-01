@@ -1,7 +1,9 @@
 export const appUrls = {
   dashboard: {
     blogs: {
+      new: () => '/dashboards/blogs/new' as const,
       list: () => '/blogs' as const,
+      edit: (blogId: string) => `/dashboards/blogs/${blogId}/edit` as const,
       articles: {
         list: (blogId: string) => `/dashboards/blogs/${blogId}/articles` as const,
         new: (blogId: string) => `/dashboards/blogs/${blogId}/articles/new` as const,

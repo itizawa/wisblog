@@ -4,38 +4,56 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { NoteAdd } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Stack, TextField, useTheme } from '@mui/material';
-import { BlogSchema } from '@repo/types';
+import { type Blog, BlogSchema } from '@repo/types';
 import { useSnackbar } from 'notistack';
 import type { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import type { z } from 'zod';
-import { createBlog } from '~/actions/blog';
+import { createBlog, updateBlog } from '~/actions/blog';
 import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
 
 const inputSchema = BlogSchema.pick({ name: true, subDomain: true });
 type InputState = z.infer<typeof inputSchema>;
 
-export const CreateBlogForm: FC = () => {
+type Props = {
+  existingBlog?: Blog;
+};
+
+export const EditBlogForm: FC<Props> = ({ existingBlog }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { palette } = useTheme();
 
   const { control, formState, handleSubmit } = useForm<InputState>({
-    defaultValues: {
-      name: '',
-      subDomain: '',
-    },
+    defaultValues: existingBlog
+      ? {
+          name: existingBlog.name,
+          subDomain: existingBlog.subDomain,
+        }
+      : {
+          name: '',
+          subDomain: '',
+        },
     resolver: zodResolver(inputSchema),
     mode: 'onChange',
   });
 
   const onSubmit = handleSubmit(async ({ name, subDomain }) => {
     try {
-      await createBlog({
-        name,
-        subDomain,
-      });
-      enqueueSnackbar({ message: 'ブログを作成しました', variant: 'success' });
-      window.location.href = generateSubDomainUrl(subDomain);
+      if (existingBlog) {
+        await updateBlog({
+          id: existingBlog.id,
+          name,
+          subDomain,
+        });
+        enqueueSnackbar({ message: 'ブログを更新しました', variant: 'success' });
+      } else {
+        await createBlog({
+          name,
+          subDomain,
+        });
+        enqueueSnackbar({ message: 'ブログを作成しました', variant: 'success' });
+        window.location.href = generateSubDomainUrl(subDomain);
+      }
     } catch (error) {
       enqueueSnackbar({ message: (error as Error).message, variant: 'error' });
     }
