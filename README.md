@@ -1,5 +1,6 @@
 
 
-![localhost_3000_(PC) (1)](https://github.com/user-attachments/assets/7b5472ff-ee9b-4b6c-a8ae-f7669dd176a5)
+<img width="1412" alt="スクリーンショット 2024-12-01 20 30 15" src="https://github.com/user-attachments/assets/38457cb0-7ffd-4f09-bd09-ae6e223ffdf5">
+
 
 Blog を作れます
