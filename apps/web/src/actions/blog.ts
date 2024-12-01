@@ -56,3 +56,19 @@ export const createBlog = async ({
     subDomain,
   });
 };
+
+export const updateBlog = async ({
+  id,
+  name,
+  subDomain,
+}: {
+  id: string;
+  name: string;
+  subDomain: string;
+}) => {
+  return await trpcClient.blog.update.mutate({
+    id,
+    name,
+    subDomain,
+  });
+};

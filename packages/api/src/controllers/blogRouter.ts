@@ -3,9 +3,11 @@ import { z } from 'zod';
 import { PrismaClientSingleton } from '../libs/PrismaClientSingleton';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { CreateBlogUseCase } from '../usecases/blog';
+import { UpdateBlogUseCase } from '../usecases/blog/UpdateBlogUseCase';
 
 const prismaClient = PrismaClientSingleton.instance;
 const createBlogUseCase = new CreateBlogUseCase(prismaClient);
+const updateBlogUseCase = new UpdateBlogUseCase(prismaClient);
 
 export const blogRouter = router({
   createBlog: protectedProcedure
@@ -42,4 +44,13 @@ export const blogRouter = router({
 
     return blogs.map(blog => blog.subDomain);
   }),
+  update: protectedProcedure
+    .input(BlogSchema.pick({ id: true, name: true, subDomain: true }))
+    .mutation(async ({ input }) => {
+      return await updateBlogUseCase.execute({
+        id: input.id,
+        name: input.name,
+        subDomain: input.subDomain,
+      });
+    }),
 });
