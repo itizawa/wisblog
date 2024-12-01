@@ -1,4 +1,5 @@
-import { Stack, Typography } from '@mui/material';
+import { Settings } from '@mui/icons-material';
+import { Box, IconButton, Link, Stack, Typography } from '@mui/material';
 import type { Blog } from '@repo/types';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
@@ -10,6 +11,7 @@ import { ArticleSummaryPaperForAdmin } from '~/components/models/article/Article
 import { CreateNewArticleButton } from '~/components/models/article/CreateNewArticleButton';
 import { LoadingBox } from '~/components/uiParts/LoadingBox';
 import { WisblogTabs } from '~/components/uiParts/WisblogTabs';
+import { appUrls } from '~/constants/appUrls';
 import { generateWisblogMetadata } from '~/libs/generateWisblogMetadata';
 
 export const metadata = generateWisblogMetadata({ title: '記事一覧' });
@@ -24,7 +26,14 @@ export default async function Page({ params }: { params: { blogId: string } }) {
 
   return (
     <Stack maxWidth={900} mx='auto' pt={2} pb={4} gap={3} px={2}>
-      <Typography variant='h4'>{blog.name}</Typography>
+      <Box display='flex' justifyContent='space-between'>
+        <Typography variant='h4'>{blog.name}</Typography>
+        <Link href={appUrls.dashboard.blogs.edit(blog.id)}>
+          <IconButton>
+            <Settings />
+          </IconButton>
+        </Link>
+      </Box>
       <Stack direction='row' justifyContent='space-between' columnGap={2}>
         <Typography variant='h5'>記事一覧</Typography>
         <CreateNewArticleButton blogId={blog.id} />

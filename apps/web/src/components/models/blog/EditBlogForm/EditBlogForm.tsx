@@ -9,7 +9,7 @@ import { useSnackbar } from 'notistack';
 import type { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import type { z } from 'zod';
-import { createBlog } from '~/actions/blog';
+import { createBlog, updateBlog } from '~/actions/blog';
 import { generateSubDomainUrl } from '~/utils/generateSubDomainUrl';
 
 const inputSchema = BlogSchema.pick({ name: true, subDomain: true });
@@ -40,11 +40,11 @@ export const EditBlogForm: FC<Props> = ({ existingBlog }) => {
   const onSubmit = handleSubmit(async ({ name, subDomain }) => {
     try {
       if (existingBlog) {
-        // await updateBlog({
-        //   id: existingBlog.id,
-        //   name,
-        //   subDomain,
-        // });
+        await updateBlog({
+          id: existingBlog.id,
+          name,
+          subDomain,
+        });
         enqueueSnackbar({ message: 'ブログを更新しました', variant: 'success' });
       } else {
         await createBlog({
