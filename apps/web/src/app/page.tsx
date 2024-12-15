@@ -11,7 +11,7 @@ export default async function Page() {
       <Box sx={{ border: '1px solid white' }}>
         <img src='/top.png' alt='top' width={'100%'} loading='lazy' />
       </Box>
-      <Typography variant='body1'>Wisblogは直感的なUIでブログを作成できます。</Typography>
+      <Typography variant='body1'>Wisblogは直感的なUIでブログを作成できます</Typography>
       {currentUser ? (
         <Link href={'/dashboards/blogs'} color='info' sx={{ textDecoration: 'none' }}>
           <Typography variant='h5'>ダッシュボードへ</Typography>
