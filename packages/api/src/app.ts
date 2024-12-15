@@ -56,6 +56,9 @@ app.use(
         host: url.hostname,
         database: url.pathname.slice(1),
         port: Number(url.port),
+        ssl: {
+          rejectUnauthorized: false,
+        },
       }),
     }),
   }),
