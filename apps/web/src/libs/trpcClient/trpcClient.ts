@@ -11,7 +11,7 @@ export const trpcClient = createTRPCProxyClient<AppRouter>({
     httpBatchLink({
       url: urlJoin(process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080', '/trpc'),
       fetch: async (input, init) => {
-        const cookieStore = cookies();
+        const cookieStore = await cookies();
         const cookie = cookieStore
           .getAll()
           .map(cookie => `${cookie.name}=${cookie.value}`)
